@@ -1030,13 +1030,14 @@ function setStatus(thinking) {
   }
 }
 
-async function callLLM(messages, systemPrompt) {
+async function callLLM(messages, systemPrompt, maxTokens) {
   const apiKey = localStorage.getItem('cl_apikey');
   const provider = localStorage.getItem('cl_provider') || 'anthropic';
   if (!apiKey) { addChatMessage('assistant', '**API key error.** Please go to Settings and check your key.'); return null; }
 
   const cfg = PROVIDERS[provider];
   const last8 = messages.slice(-8);
+  const tokens = maxTokens || 1024;
 
   try {
     if (provider === 'anthropic') {
@@ -1048,7 +1049,7 @@ async function callLLM(messages, systemPrompt) {
           'anthropic-version': '2023-06-01',
           'anthropic-dangerous-direct-browser-access': 'true'
         },
-        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, system: systemPrompt, messages: last8 })
+        body: JSON.stringify({ model: cfg.model, max_tokens: tokens, system: systemPrompt, messages: last8 })
       });
       if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
       const data = await res.json();
@@ -1066,7 +1067,7 @@ async function callLLM(messages, systemPrompt) {
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents, generationConfig: { maxOutputTokens: 1000 } })
+        body: JSON.stringify({ contents, generationConfig: { maxOutputTokens: tokens } })
       });
       if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
       const data = await res.json();
@@ -1078,7 +1079,7 @@ async function callLLM(messages, systemPrompt) {
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, messages: oaiMessages })
+        body: JSON.stringify({ model: cfg.model, max_tokens: tokens, messages: oaiMessages })
       });
       if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
       const data = await res.json();
@@ -1095,7 +1096,7 @@ async function callLLM(messages, systemPrompt) {
           'HTTP-Referer': window.location.href,
           'X-Title': 'CL Agent'
         },
-        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, messages: oaiMessages })
+        body: JSON.stringify({ model: cfg.model, max_tokens: tokens, messages: oaiMessages })
       });
       if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
       const data = await res.json();
@@ -1193,7 +1194,8 @@ Explanation: [brief explanation]
 
 Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
 
-  const content = await callClaude([{ role: 'user', content: prompt }], 'You are an expert exam content creator for Indian competitive exams. Generate high-quality, exam-appropriate questions.');
+  const docTokens = Math.min(Math.max(numQ * 200, 2000), 8192);
+  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert exam content creator for Indian competitive exams. Generate high-quality, exam-appropriate questions.', docTokens);
 
   if (!content || content.startsWith('**Error')) {
     hideGenerating();
@@ -1304,7 +1306,8 @@ SLIDE 2: [Slide title]
 
 Each slide should have 4-6 bullet points. Be educational, concise, and exam-focused.`;
 
-  const content = await callClaude([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher.');
+  const pptTokens = Math.min(Math.max(numSlides * 200, 2000), 8192);
+  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher.', pptTokens);
 
   if (!content || content.startsWith('**Error')) {
     hideGenerating();
