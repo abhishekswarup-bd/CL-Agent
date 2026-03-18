@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CL Agent — Career Launcher Content Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<style>
+:root {
+  --bg-primary: #0f1729;
+  --bg-secondary: #1a2340;
+  --bg-card: #1e2a4a;
+  --bg-input: #253050;
+  --text-primary: #f0f2f8;
+  --text-secondary: #8b95b0;
+  --text-muted: #5a6580;
+  --cl-blue: #1A5EA8;
+  --cl-blue-light: #2a7ed8;
+  --cl-gold: #F5C842;
+  --cl-gold-dark: #d4a830;
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.12);
+  --amber: #f59e0b;
+  --amber-bg: rgba(245,158,11,0.12);
+  --green: #22c55e;
+  --green-bg: rgba(34,197,94,0.12);
+  --grey: #6b7280;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+[data-theme="light"] {
+  --bg-primary: #f0f2f7;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #eef1f6;
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a6178;
+  --text-muted: #8b92a8;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --red-bg: rgba(239,68,68,0.08);
+  --amber-bg: rgba(245,158,11,0.08);
+  --green-bg: rgba(34,197,94,0.08);
+}
+[data-theme="light"] #setup-screen {
+  background: linear-gradient(135deg, #f0f2f7 0%, #e2e6f0 100%);
+}
+[data-theme="light"] .chat-msg.user .chat-bubble { color: #fff; }
+[data-theme="light"] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6178' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ========== SETUP SCREEN ========== */
+#setup-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 20px;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #0c1220 100%);
+}
+.setup-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  max-width: 440px; width: 100%;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.setup-card .logo {
+  width: 72px; height: 72px;
+  background: var(--cl-blue);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 24px; color: #fff;
+  margin: 0 auto 24px;
+  box-shadow: 0 8px 32px rgba(26,94,168,0.3);
+}
+.setup-card h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.setup-card p.subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
+.form-group { text-align: left; margin-bottom: 20px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); }
+.form-group .hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.form-group .hint a { color: var(--cl-blue-light); text-decoration: none; }
+input[type="text"], input[type="password"], input[type="number"], textarea, select {
+  width: 100%; padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit; font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--cl-blue); }
+select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b95b0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+textarea { resize: vertical; min-height: 80px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px; border: none; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: var(--cl-blue); color: #fff; }
+.btn-primary:hover { background: var(--cl-blue-light); transform: translateY(-1px); }
+.btn-secondary { background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg-card); }
+.btn-gold { background: var(--cl-gold); color: #000; }
+.btn-gold:hover { background: var(--cl-gold-dark); }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.btn-danger:hover { background: var(--red-bg); }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ========== MAIN APP ========== */
+#main-app { display: none; height: 100vh; flex-direction: column; }
+#main-app.active { display: flex; }
+
+/* Top Bar */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 56px; min-height: 56px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-left { display: flex; align-items: center; gap: 24px; }
+.app-logo { display: flex; align-items: center; gap: 10px; }
+.app-logo .logo-icon {
+  width: 34px; height: 34px; background: var(--cl-blue);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; color: #fff;
+}
+.app-logo .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+.tab-buttons { display: flex; gap: 4px; }
+.tab-btn {
+  padding: 8px 18px; border: none; background: transparent;
+  color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+.tab-btn.active { color: var(--cl-gold); background: rgba(245,200,66,0.08); }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.status-badge {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 500; color: var(--green);
+  background: var(--green-bg);
+}
+.status-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.status-badge.thinking { color: var(--amber); background: var(--amber-bg); }
+.status-badge.thinking .dot { background: var(--amber); animation: pulse 1.2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.settings-btn {
+  width: 34px; height: 34px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: transparent;
+  color: var(--text-secondary); cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.settings-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+.theme-toggle {
+  width: 34px; height: 34px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: transparent;
+  color: var(--text-secondary); cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; line-height: 1;
+}
+.theme-toggle:hover { color: var(--cl-gold); background: var(--bg-card); }
+
+/* Tab Content */
+.tab-content { flex: 1; overflow: hidden; }
+.tab-panel { display: none; height: 100%; flex-direction: column; }
+.tab-panel.active { display: flex; }
+
+/* ========== AGENT TAB ========== */
+.chat-container { flex: 1; overflow-y: auto; padding: 24px; }
+.chat-container::-webkit-scrollbar { width: 6px; }
+.chat-container::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 3px; }
+.chat-msg { max-width: 720px; margin: 0 auto 16px; display: flex; gap: 12px; }
+.chat-msg.user { justify-content: flex-end; }
+.chat-msg .avatar {
+  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.chat-msg.assistant .avatar { background: var(--cl-blue); color: #fff; }
+.chat-msg.user .avatar { background: var(--cl-gold); color: #000; }
+.chat-bubble {
+  padding: 14px 18px; border-radius: 14px; font-size: 14px; line-height: 1.65;
+  max-width: 600px;
+}
+.chat-msg.assistant .chat-bubble { background: var(--bg-card); border: 1px solid var(--border); }
+.chat-msg.user .chat-bubble { background: var(--cl-blue); color: #fff; }
+.chat-bubble strong { font-weight: 700; }
+.chat-bubble ul { margin: 8px 0 8px 18px; }
+.chat-bubble li { margin-bottom: 4px; }
+.chat-input-area {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.quick-actions {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+}
+.quick-btn {
+  padding: 6px 14px; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-secondary);
+  border-radius: 20px; font-family: inherit; font-size: 12px;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.quick-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(26,94,168,0.1); }
+.chat-input-wrap {
+  display: flex; gap: 10px; max-width: 720px; margin: 0 auto;
+}
+.chat-input-wrap input {
+  flex: 1; padding: 12px 16px; background: var(--bg-input);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-primary); font-family: inherit; font-size: 14px; outline: none;
+}
+.chat-input-wrap input:focus { border-color: var(--cl-blue); }
+.chat-input-wrap .btn { border-radius: var(--radius); min-width: 80px; }
+
+/* ========== SCHEDULE TAB ========== */
+.schedule-container { flex: 1; overflow-y: auto; padding: 24px; }
+.schedule-header {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 960px; margin: 0 auto 20px;
+}
+.schedule-header h2 { font-size: 22px; font-weight: 700; }
+.schedule-summary {
+  display: flex; gap: 12px; max-width: 960px; margin: 0 auto 24px;
+}
+.summary-card {
+  flex: 1; padding: 16px 20px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+.summary-card .num { font-size: 28px; font-weight: 800; }
+.summary-card .label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.summary-card.overdue .num { color: var(--red); }
+.summary-card.due-soon .num { color: var(--amber); }
+.summary-card.upcoming .num { color: var(--cl-blue-light); }
+.summary-card.done .num { color: var(--green); }
+.schedule-views {
+  display: flex; gap: 8px; max-width: 960px; margin: 0 auto 16px;
+}
+.view-btn {
+  padding: 6px 16px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-secondary);
+  border-radius: var(--radius-sm); font-family: inherit; font-size: 13px;
+  cursor: pointer; font-weight: 600; transition: all 0.2s;
+}
+.view-btn.active { background: var(--cl-blue); color: #fff; border-color: var(--cl-blue); }
+.schedule-table-wrap { max-width: 960px; margin: 0 auto; }
+.schedule-table {
+  width: 100%; border-collapse: separate; border-spacing: 0 6px;
+}
+.schedule-table th {
+  text-align: left; padding: 10px 14px; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-muted); font-weight: 600;
+}
+.schedule-table td {
+  padding: 12px 14px; font-size: 13px;
+  background: var(--bg-card); border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.schedule-table tr td:first-child { border-left: 1px solid var(--border); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.schedule-table tr td:last-child { border-right: 1px solid var(--border); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.schedule-table tr.row-overdue td { border-left: 3px solid var(--red); }
+.schedule-table tr.row-overdue td:first-child { border-left: 3px solid var(--red); }
+.schedule-table tr.row-due-soon td { border-left: 3px solid var(--amber); }
+.schedule-table tr.row-due-soon td:first-child { border-left: 3px solid var(--amber); }
+.schedule-table tr.row-done td { opacity: 0.5; }
+.schedule-table tr.row-done td:first-child { border-left: 3px solid var(--green); }
+.status-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+}
+.status-pill.overdue { background: var(--red-bg); color: var(--red); }
+.status-pill.due-soon { background: var(--amber-bg); color: var(--amber); }
+.status-pill.upcoming { background: rgba(42,126,216,0.12); color: var(--cl-blue-light); }
+.status-pill.done { background: var(--green-bg); color: var(--green); }
+.monthly-summary { max-width: 960px; margin: 0 auto; display: none; }
+.month-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.month-bar-label { width: 100px; font-size: 13px; font-weight: 600; text-align: right; }
+.month-bar-track { flex: 1; height: 28px; background: var(--bg-input); border-radius: 6px; overflow: hidden; }
+.month-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 700; color: #fff; min-width: 30px; transition: width 0.4s ease; }
+.month-bar-count { width: 40px; font-size: 13px; font-weight: 600; }
+
+/* ========== MODAL ========== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center; z-index: 100;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px; max-width: 480px; width: 90%;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+.modal .form-group { margin-bottom: 14px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+/* ========== CREATE TAB ========== */
+.create-container { flex: 1; overflow-y: auto; padding: 24px; }
+.create-panels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  max-width: 960px; margin: 0 auto;
+}
+.create-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+}
+.create-panel h3 {
+  font-size: 18px; font-weight: 700; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.create-panel .desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.create-panel .form-group { margin-bottom: 14px; }
+.generating-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center; z-index: 200;
+}
+.generating-overlay.active { display: flex; }
+.generating-box {
+  background: var(--bg-secondary); border-radius: var(--radius);
+  padding: 40px; text-align: center;
+}
+.generating-box .spinner {
+  width: 48px; height: 48px; border: 4px solid var(--border);
+  border-top-color: var(--cl-blue); border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ========== FILES TAB ========== */
+.files-container { flex: 1; overflow-y: auto; padding: 24px; }
+.files-list { max-width: 720px; margin: 0 auto; }
+.file-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 8px;
+}
+.file-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+}
+.file-icon.docx { background: rgba(42,126,216,0.15); color: var(--cl-blue-light); }
+.file-icon.pptx { background: rgba(245,200,66,0.15); color: var(--cl-gold); }
+.file-info { flex: 1; }
+.file-info .name { font-size: 14px; font-weight: 600; }
+.file-info .meta { font-size: 12px; color: var(--text-secondary); }
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--text-muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+
+/* Scrollbar global */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 3px; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex; gap: 8px; align-items: center; max-width: 960px; margin: 0 auto 12px;
+}
+.filter-bar select { width: auto; min-width: 140px; }
+.filter-bar input[type="text"] { max-width: 240px; }
+</style>
+</head>
+<body>
+
+<!-- ===== SETUP SCREEN ===== -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="logo">CL</div>
+    <h1>CL Agent</h1>
+    <p class="subtitle">Career Launcher Content Production Assistant</p>
+    <div class="form-group">
+      <label>AI Provider</label>
+      <select id="setup-provider" onchange="updateProviderHints()">
+        <option value="anthropic">Anthropic Claude</option>
+        <option value="gemini">Google Gemini (free tier available)</option>
+        <option value="groq">Groq (free tier available)</option>
+        <option value="openrouter">OpenRouter (multi-model gateway)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label id="apikey-label">Your Anthropic API Key</label>
+      <input type="password" id="setup-apikey" placeholder="sk-ant-...">
+      <div class="hint" id="apikey-hint">Get one at <a href="https://console.anthropic.com" target="_blank" id="apikey-link">console.anthropic.com</a></div>
+    </div>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="setup-name" placeholder="e.g. Abhilasha">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="saveSetup()" style="margin-top:8px;">Get Started</button>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="main-app">
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="app-logo">
+        <div class="logo-icon">CL</div>
+        <span class="logo-text">CL Agent</span>
+      </div>
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="agent">Agent</button>
+        <button class="tab-btn" data-tab="schedule">Schedule</button>
+        <button class="tab-btn" data-tab="create">Create</button>
+        <button class="tab-btn" data-tab="files">Files</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="status-badge" id="status-badge">
+        <span class="dot"></span>
+        <span id="status-text">Ready</span>
+      </div>
+      <span style="font-size:11px;color:var(--text-muted);font-weight:500;" id="provider-badge"></span>
+      <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark theme">&#9790;</button>
+      <button class="settings-btn" onclick="showSetup()" title="Settings">&#9881;</button>
+    </div>
+  </div>
+
+  <div class="tab-content">
+    <!-- ===== AGENT TAB ===== -->
+    <div class="tab-panel active" id="panel-agent">
+      <div class="chat-container" id="chat-container"></div>
+      <div class="chat-input-area">
+        <div class="quick-actions">
+          <button class="quick-btn" data-msg="Make SNAP Mock 1 — English section">&#128221; SNAP English Mock</button>
+          <button class="quick-btn" data-msg="Make CLAT Mock 1 — LR section">&#9878;&#65039; CLAT LR Mock</button>
+          <button class="quick-btn" data-msg="What mocks are overdue?">&#128197; What's overdue?</button>
+          <button class="quick-btn" data-msg="Show me what's due this month">&#128202; This month's schedule</button>
+          <button class="quick-btn" data-msg="Make a YouTube PPT on Parajumbles">&#10022; YouTube PPT</button>
+        </div>
+        <div class="chat-input-wrap">
+          <input type="text" id="chat-input" placeholder="Ask CL Agent anything..." autocomplete="off">
+          <button class="btn btn-primary" id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCHEDULE TAB ===== -->
+    <div class="tab-panel" id="panel-schedule">
+      <div class="schedule-container">
+        <div class="schedule-header">
+          <h2>Mock Production Schedule</h2>
+          <button class="btn btn-primary btn-sm" onclick="showAddMockModal()">+ Add Mock</button>
+        </div>
+        <div class="schedule-summary" id="schedule-summary"></div>
+        <div class="schedule-views">
+          <button class="view-btn active" data-view="table" onclick="switchView('table')">Table View</button>
+          <button class="view-btn" data-view="monthly" onclick="switchView('monthly')">Monthly Summary</button>
+        </div>
+        <div class="filter-bar">
+          <select id="filter-status" onchange="renderSchedule()">
+            <option value="">All Statuses</option>
+            <option value="overdue">Overdue</option>
+            <option value="due-soon">Due Soon</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="done">Done</option>
+          </select>
+          <select id="filter-assignee" onchange="renderSchedule()">
+            <option value="">All Assignees</option>
+            <option value="Abhilasha">Abhilasha</option>
+            <option value="Arijit">Arijit</option>
+            <option value="Savitri">Savitri</option>
+            <option value="Tarang">Tarang</option>
+          </select>
+          <input type="text" id="filter-search" placeholder="Search exams..." oninput="renderSchedule()">
+        </div>
+        <div class="schedule-table-wrap" id="table-view">
+          <table class="schedule-table">
+            <thead><tr><th>Exam / Mock</th><th>Section</th><th>Due Date</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="schedule-tbody"></tbody>
+          </table>
+        </div>
+        <div class="monthly-summary" id="monthly-view"></div>
+      </div>
+    </div>
+
+    <!-- ===== CREATE TAB ===== -->
+    <div class="tab-panel" id="panel-create">
+      <div class="create-container">
+        <div class="create-panels">
+          <!-- DOCX Panel -->
+          <div class="create-panel">
+            <h3><span style="color:var(--cl-blue-light)">&#128196;</span> Word Document — Mock Section</h3>
+            <p class="desc">Generate a complete mock exam section as a downloadable .docx file</p>
+            <div class="form-group">
+              <label>Exam Name</label>
+              <select id="doc-exam">
+                <option>CAT</option><option>CLAT</option><option>AILET</option><option>SNAP</option>
+                <option>NMAT</option><option>IPMAT</option><option>CUET</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Section</label>
+              <select id="doc-section">
+                <option>English – VARC</option><option>Logical Reasoning</option>
+                <option>Quantitative</option><option>General Knowledge</option><option>Legal Reasoning</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Mock Number</label>
+              <input type="text" id="doc-mocknum" placeholder="e.g. Mock 1">
+            </div>
+            <div class="form-group">
+              <label>Number of Questions</label>
+              <input type="number" id="doc-numq" value="25" min="1" max="100">
+            </div>
+            <div class="form-group">
+              <label>Custom Instructions (optional)</label>
+              <textarea id="doc-instructions" placeholder="e.g. Focus on parajumbles and RC passages..."></textarea>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="generateDocx()">Generate Word Document</button>
+          </div>
+
+          <!-- PPTX Panel -->
+          <div class="create-panel">
+            <h3><span style="color:var(--cl-gold)">&#128202;</span> PowerPoint — YouTube / Class PPT</h3>
+            <p class="desc">Generate a branded slide deck as a downloadable .pptx file</p>
+            <div class="form-group">
+              <label>Topic</label>
+              <input type="text" id="ppt-topic" placeholder="e.g. Parajumbles, Syllogisms, RC Strategy">
+            </div>
+            <div class="form-group">
+              <label>Exam Audience</label>
+              <select id="ppt-exam">
+                <option>CAT</option><option>CLAT</option><option>AILET</option><option>SNAP</option>
+                <option>NMAT</option><option>IPMAT</option><option>CUET</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Number of Slides</label>
+              <input type="number" id="ppt-slides" value="10" min="3" max="30">
+            </div>
+            <div class="form-group">
+              <label>Slide Style</label>
+              <select id="ppt-style">
+                <option>Clean White</option><option>Dark Professional</option><option>Colourful Education</option>
+              </select>
+            </div>
+            <button class="btn btn-gold btn-full" onclick="generatePptx()">Generate PowerPoint</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FILES TAB ===== -->
+    <div class="tab-panel" id="panel-files">
+      <div class="files-container">
+        <div class="files-list" id="files-list">
+          <div class="empty-state">
+            <div class="icon">&#128194;</div>
+            <p>No files generated yet. Go to the <strong>Create</strong> tab to get started.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD/EDIT MOCK MODAL ===== -->
+<div class="modal-overlay" id="mock-modal">
+  <div class="modal">
+    <h3 id="modal-title">Add New Mock</h3>
+    <input type="hidden" id="modal-mock-id">
+    <div class="form-group">
+      <label>Exam Name</label>
+      <input type="text" id="modal-exam" placeholder="e.g. CAT Mock 5">
+    </div>
+    <div class="form-group">
+      <label>Section</label>
+      <input type="text" id="modal-section" placeholder="e.g. VARC">
+    </div>
+    <div class="form-group">
+      <label>Due Date</label>
+      <input type="text" id="modal-due" placeholder="YYYY-MM-DD">
+    </div>
+    <div class="form-group">
+      <label>Assignee</label>
+      <select id="modal-assignee">
+        <option>Abhilasha</option><option>Arijit</option><option>Savitri</option><option>Tarang</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="modal-notes" placeholder="Optional notes..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMock()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GENERATING OVERLAY ===== -->
+<div class="generating-overlay" id="gen-overlay">
+  <div class="generating-box">
+    <div class="spinner"></div>
+    <p id="gen-text">Generating content with AI...</p>
+  </div>
+</div>
+
+<script>
+// ===== GLOBALS =====
+let conversationHistory = [];
+let sessionFiles = [];
+let currentScheduleView = 'table';
+
+// ===== PROVIDER CONFIG =====
+const PROVIDERS = {
+  anthropic: {
+    label: 'Anthropic Claude',
+    keyLabel: 'Your Anthropic API Key',
+    placeholder: 'sk-ant-...',
+    hint: 'Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>',
+    model: 'claude-sonnet-4-20250514',
+  },
+  gemini: {
+    label: 'Google Gemini',
+    keyLabel: 'Your Google AI API Key',
+    placeholder: 'AIza...',
+    hint: 'Free tier available — get a key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>',
+    model: 'gemini-2.0-flash',
+  },
+  groq: {
+    label: 'Groq',
+    keyLabel: 'Your Groq API Key',
+    placeholder: 'gsk_...',
+    hint: 'Free tier available — get a key at <a href="https://console.groq.com" target="_blank">console.groq.com</a>',
+    model: 'llama-3.3-70b-versatile',
+  },
+  openrouter: {
+    label: 'OpenRouter',
+    keyLabel: 'Your OpenRouter API Key',
+    placeholder: 'sk-or-...',
+    hint: 'Multi-model gateway — get a key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>',
+    model: 'anthropic/claude-sonnet-4',
+  },
+};
+
+function updateProviderHints() {
+  const provider = document.getElementById('setup-provider').value;
+  const cfg = PROVIDERS[provider];
+  document.getElementById('apikey-label').textContent = cfg.keyLabel;
+  document.getElementById('setup-apikey').placeholder = cfg.placeholder;
+  document.getElementById('apikey-hint').innerHTML = cfg.hint;
+}
+
+// ===== THEME =====
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.innerHTML = theme === 'light' ? '&#9728;' : '&#9790;';
+  localStorage.setItem('cl_theme', theme);
+}
+function toggleTheme() {
+  const current = localStorage.getItem('cl_theme') || 'dark';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// ===== SETUP =====
+function init() {
+  applyTheme(localStorage.getItem('cl_theme') || 'dark');
+  const apiKey = localStorage.getItem('cl_apikey');
+  const userName = localStorage.getItem('cl_username');
+  const provider = localStorage.getItem('cl_provider') || 'anthropic';
+  if (apiKey && userName) {
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('main-app').classList.add('active');
+    updateProviderBadge();
+    initScheduleData();
+    renderSchedule();
+    sendGreeting();
+  }
+  document.getElementById('setup-provider').value = provider;
+  updateProviderHints();
+}
+
+function saveSetup() {
+  const key = document.getElementById('setup-apikey').value.trim();
+  const name = document.getElementById('setup-name').value.trim();
+  const provider = document.getElementById('setup-provider').value;
+  if (!key) { alert('Please enter your API key.'); return; }
+  if (!name) { alert('Please enter your name.'); return; }
+  localStorage.setItem('cl_apikey', key);
+  localStorage.setItem('cl_username', name);
+  localStorage.setItem('cl_provider', provider);
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('main-app').classList.add('active');
+  updateProviderBadge();
+  initScheduleData();
+  renderSchedule();
+  sendGreeting();
+}
+
+function updateProviderBadge() {
+  const provider = localStorage.getItem('cl_provider') || 'anthropic';
+  const badge = document.getElementById('provider-badge');
+  if (badge) badge.textContent = PROVIDERS[provider]?.label || provider;
+}
+
+function showSetup() {
+  document.getElementById('setup-apikey').value = localStorage.getItem('cl_apikey') || '';
+  document.getElementById('setup-name').value = localStorage.getItem('cl_username') || '';
+  document.getElementById('setup-provider').value = localStorage.getItem('cl_provider') || 'anthropic';
+  updateProviderHints();
+  document.getElementById('main-app').classList.remove('active');
+  document.getElementById('setup-screen').style.display = 'flex';
+}
+
+// ===== TABS =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== SCHEDULE DATA =====
+function getDefaultSchedule() {
+  const mocks = [];
+  let id = 1;
+  const add = (exam, section, due, assignee, notes) => {
+    mocks.push({ id: id++, examName: exam, section, dueDate: due, status: 'upcoming', assignee, notes: notes || '' });
+  };
+
+  // Overdue / Urgent
+  add('CDC Flexi Mock 1', 'English', '2026-02-28', 'Abhilasha');
+  add('CLAT Mock 8', 'LR', '2026-03-01', 'Arijit');
+  add('AILET Mock 4', 'English', '2026-03-05', 'Savitri');
+  add('MHCET LLB Mock 5', 'LR', '2026-03-07', 'Arijit');
+  add('BBA Mock 41', 'English', '2026-03-10', 'Tarang');
+
+  // CAT Mocks 4-10 — VARC — Every Tuesday from Mar 17
+  for (let i = 4; i <= 10; i++) {
+    const d = new Date(2026, 2, 17 + (i - 4) * 7);
+    add('CAT Mock ' + i, 'VARC', d.toISOString().split('T')[0], 'Abhilasha');
+  }
+
+  // CLAT Prime Mocks 7-10
+  ['Savitri', 'Arijit', 'Tarang', 'Abhilasha'].forEach((a, i) => {
+    add('CLAT Prime Mock ' + (7 + i), 'All Sections', '2026-03-' + String(14 + i * 4).padStart(2, '0'), a);
+  });
+
+  // AILET Prime Mocks 3-5
+  add('AILET Prime Mock 3', 'English', '2026-03-12', 'Savitri');
+  add('AILET Prime Mock 4', 'LR', '2026-03-19', 'Arijit');
+  add('AILET Prime Mock 5', 'English + LR', '2026-03-26', 'Savitri');
+
+  // Fill remaining March to hit ~23
+  add('SNAP Mock 6', 'English', '2026-03-15', 'Tarang');
+  add('NMAT Mock 3', 'Language Skills', '2026-03-20', 'Abhilasha');
+  add('IPMAT Mock 2', 'Verbal Ability', '2026-03-22', 'Savitri');
+
+  // April 2026 — 33 generic entries
+  const aprilAssignees = ['Abhilasha', 'Arijit', 'Savitri', 'Tarang'];
+  const aprilExams = ['CAT', 'CLAT', 'AILET', 'SNAP', 'NMAT', 'IPMAT', 'CUET', 'MHCET'];
+  const aprilSections = ['VARC', 'LR', 'English', 'Quantitative', 'Legal Reasoning', 'GK'];
+  for (let i = 0; i < 33; i++) {
+    const day = 1 + Math.floor(i * 29 / 33);
+    add(aprilExams[i % aprilExams.length] + ' Mock ' + (i + 1), aprilSections[i % aprilSections.length],
+      '2026-04-' + String(day).padStart(2, '0'), aprilAssignees[i % 4]);
+  }
+
+  return mocks;
+}
+
+function initScheduleData() {
+  if (!localStorage.getItem('cl_schedule')) {
+    localStorage.setItem('cl_schedule', JSON.stringify(getDefaultSchedule()));
+  }
+}
+
+function getSchedule() {
+  try { return JSON.parse(localStorage.getItem('cl_schedule')) || []; }
+  catch { return []; }
+}
+
+function saveSchedule(data) {
+  localStorage.setItem('cl_schedule', JSON.stringify(data));
+}
+
+function computeStatus(dueDate) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const due = new Date(dueDate + 'T00:00:00');
+  const diff = (due - today) / (1000 * 60 * 60 * 24);
+  if (diff < 0) return 'overdue';
+  if (diff <= 7) return 'due-soon';
+  return 'upcoming';
+}
+
+function refreshStatuses() {
+  const data = getSchedule();
+  data.forEach(m => { if (m.status !== 'done') m.status = computeStatus(m.dueDate); });
+  saveSchedule(data);
+  return data;
+}
+
+function renderSchedule() {
+  const data = refreshStatuses();
+  const filterStatus = document.getElementById('filter-status').value;
+  const filterAssignee = document.getElementById('filter-assignee').value;
+  const filterSearch = document.getElementById('filter-search').value.toLowerCase();
+
+  let filtered = data.filter(m => {
+    if (filterStatus && m.status !== filterStatus) return false;
+    if (filterAssignee && m.assignee !== filterAssignee) return false;
+    if (filterSearch && !(m.examName + ' ' + m.section).toLowerCase().includes(filterSearch)) return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    const order = { overdue: 0, 'due-soon': 1, upcoming: 2, done: 3 };
+    if (order[a.status] !== order[b.status]) return order[a.status] - order[b.status];
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  });
+
+  // Summary cards
+  const counts = { overdue: 0, 'due-soon': 0, upcoming: 0, done: 0 };
+  data.forEach(m => counts[m.status] = (counts[m.status] || 0) + 1);
+  document.getElementById('schedule-summary').innerHTML = `
+    <div class="summary-card overdue"><div class="num">${counts.overdue}</div><div class="label">Overdue</div></div>
+    <div class="summary-card due-soon"><div class="num">${counts['due-soon']}</div><div class="label">Due Soon</div></div>
+    <div class="summary-card upcoming"><div class="num">${counts.upcoming}</div><div class="label">Upcoming</div></div>
+    <div class="summary-card done"><div class="num">${counts.done}</div><div class="label">Done</div></div>
+  `;
+
+  // Table view
+  const tbody = document.getElementById('schedule-tbody');
+  tbody.innerHTML = filtered.map(m => `
+    <tr class="row-${m.status}">
+      <td><strong>${esc(m.examName)}</strong></td>
+      <td>${esc(m.section)}</td>
+      <td>${formatDate(m.dueDate)}</td>
+      <td>${esc(m.assignee)}</td>
+      <td><span class="status-pill ${m.status}">${m.status.replace('-', ' ')}</span></td>
+      <td>
+        ${m.status !== 'done' ? `<button class="btn btn-sm btn-secondary" onclick="markDone(${m.id})">&#10003; Done</button>` : ''}
+        <button class="btn btn-sm btn-secondary" onclick="editMock(${m.id})">&#9998;</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteMock(${m.id})">&#10005;</button>
+      </td>
+    </tr>
+  `).join('');
+
+  // Monthly summary
+  const months = {};
+  data.forEach(m => {
+    const key = m.dueDate.substring(0, 7);
+    if (!months[key]) months[key] = 0;
+    months[key]++;
+  });
+  const maxCount = Math.max(...Object.values(months), 1);
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('monthly-view').innerHTML = Object.keys(months).sort().map(key => {
+    const [y, m] = key.split('-');
+    const pct = Math.round(months[key] / maxCount * 100);
+    const isApril = key === '2026-04';
+    return `<div class="month-bar-row">
+      <div class="month-bar-label">${monthNames[parseInt(m)-1]} ${y}</div>
+      <div class="month-bar-track"><div class="month-bar-fill" style="width:${pct}%;background:${isApril ? 'var(--red)' : 'var(--cl-blue)'}">${months[key]}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function switchView(view) {
+  currentScheduleView = view;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  document.getElementById('table-view').style.display = view === 'table' ? 'block' : 'none';
+  document.getElementById('monthly-view').style.display = view === 'monthly' ? 'block' : 'none';
+}
+
+function markDone(id) {
+  const data = getSchedule();
+  const m = data.find(x => x.id === id);
+  if (m) { m.status = 'done'; saveSchedule(data); renderSchedule(); }
+}
+
+function deleteMock(id) {
+  if (!confirm('Delete this mock entry?')) return;
+  const data = getSchedule().filter(x => x.id !== id);
+  saveSchedule(data);
+  renderSchedule();
+}
+
+function showAddMockModal() {
+  document.getElementById('modal-title').textContent = 'Add New Mock';
+  document.getElementById('modal-mock-id').value = '';
+  document.getElementById('modal-exam').value = '';
+  document.getElementById('modal-section').value = '';
+  document.getElementById('modal-due').value = '';
+  document.getElementById('modal-assignee').value = 'Abhilasha';
+  document.getElementById('modal-notes').value = '';
+  document.getElementById('mock-modal').classList.add('active');
+}
+
+function editMock(id) {
+  const m = getSchedule().find(x => x.id === id);
+  if (!m) return;
+  document.getElementById('modal-title').textContent = 'Edit Mock';
+  document.getElementById('modal-mock-id').value = m.id;
+  document.getElementById('modal-exam').value = m.examName;
+  document.getElementById('modal-section').value = m.section;
+  document.getElementById('modal-due').value = m.dueDate;
+  document.getElementById('modal-assignee').value = m.assignee;
+  document.getElementById('modal-notes').value = m.notes;
+  document.getElementById('mock-modal').classList.add('active');
+}
+
+function closeModal() { document.getElementById('mock-modal').classList.remove('active'); }
+
+function saveMock() {
+  const data = getSchedule();
+  const id = document.getElementById('modal-mock-id').value;
+  const entry = {
+    examName: document.getElementById('modal-exam').value.trim(),
+    section: document.getElementById('modal-section').value.trim(),
+    dueDate: document.getElementById('modal-due').value.trim(),
+    assignee: document.getElementById('modal-assignee').value,
+    notes: document.getElementById('modal-notes').value.trim(),
+  };
+  if (!entry.examName || !entry.dueDate) { alert('Exam name and due date are required.'); return; }
+  if (id) {
+    const m = data.find(x => x.id === parseInt(id));
+    if (m) Object.assign(m, entry);
+  } else {
+    entry.id = data.length ? Math.max(...data.map(x => x.id)) + 1 : 1;
+    entry.status = computeStatus(entry.dueDate);
+    data.push(entry);
+  }
+  saveSchedule(data);
+  closeModal();
+  renderSchedule();
+}
+
+// ===== CHAT / AGENT =====
+function getSystemPrompt() {
+  const name = localStorage.getItem('cl_username') || 'User';
+  const data = refreshStatuses();
+  const overdue = data.filter(m => m.status === 'overdue');
+  const dueSoon = data.filter(m => m.status === 'due-soon');
+  const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  return `You are CL Agent — the AI content production assistant for Career Launcher (CL Educate Ltd), New Delhi.
+
+User: ${name} — Head of Content (VARC and Logical Reasoning) at Career Launcher.
+
+Team members: Savitri, Arijit, Tarang, and ${name}. Subject ownership varies across VARC, English, Logical Reasoning, Legal Reasoning, Quantitative, and GK.
+
+Product lines and exams they create content for:
+- MBA: CAT, XAT, NMAT, MICAT, SNAP, MHCET, CMAT
+- LST (Law): CLAT, AILET, SLAT, NLAT, MHCET 3YR/5YR
+- IPM/BBA: IPMAT Indore, IPMAT Rohtak, JIPMAT, IIM K, IIM B DBE, NPAT, Symbiosis, Christ BBA
+- CUET
+
+Content types: Mocks, Section Tests, Topic Tests, Class Sheets, Homework Sheets, Funda Books, Practice Books, YouTube session slides.
+
+Today's date: ${today}
+
+Current schedule status:
+- Overdue: ${overdue.length} mocks (${overdue.map(m => m.examName + ' — ' + m.section + ' (due ' + m.dueDate + ', ' + m.assignee + ')').join('; ') || 'none'})
+- Due within 7 days: ${dueSoon.length} mocks
+- Total mocks in pipeline: ${data.filter(m => m.status !== 'done').length}
+
+You help ${name} with:
+1. Answering questions about their schedule and workload
+2. Creating exam content — questions, passages, answer choices, and explanations
+3. Generating ideas for YouTube sessions, class sheets, and study material
+4. Providing advice on content strategy and exam patterns
+
+Be concise, professional, and proactive. Use bullet points when listing things. Address ${name} by name.`;
+}
+
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    .replace(/\n/g, '<br>');
+}
+
+function addChatMessage(role, content) {
+  const container = document.getElementById('chat-container');
+  const name = localStorage.getItem('cl_username') || 'U';
+  const initial = role === 'assistant' ? 'CL' : name.charAt(0).toUpperCase();
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML = `
+    <div class="avatar">${initial}</div>
+    <div class="chat-bubble">${role === 'assistant' ? renderMarkdown(content) : esc(content)}</div>
+  `;
+  if (role === 'user') {
+    div.innerHTML = `<div class="chat-bubble">${esc(content)}</div><div class="avatar">${initial}</div>`;
+  }
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function setStatus(thinking) {
+  const badge = document.getElementById('status-badge');
+  const text = document.getElementById('status-text');
+  if (thinking) {
+    badge.classList.add('thinking');
+    text.textContent = 'Thinking…';
+  } else {
+    badge.classList.remove('thinking');
+    text.textContent = 'Ready';
+  }
+}
+
+async function callLLM(messages, systemPrompt) {
+  const apiKey = localStorage.getItem('cl_apikey');
+  const provider = localStorage.getItem('cl_provider') || 'anthropic';
+  if (!apiKey) { addChatMessage('assistant', '**API key error.** Please go to Settings and check your key.'); return null; }
+
+  const cfg = PROVIDERS[provider];
+  const last8 = messages.slice(-8);
+
+  try {
+    if (provider === 'anthropic') {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, system: systemPrompt, messages: last8 })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
+      const data = await res.json();
+      return data.content[0].text;
+
+    } else if (provider === 'gemini') {
+      const contents = [];
+      if (systemPrompt) {
+        contents.push({ role: 'user', parts: [{ text: '[System Instructions]\n' + systemPrompt }] });
+        contents.push({ role: 'model', parts: [{ text: 'Understood. I will follow these instructions.' }] });
+      }
+      last8.forEach(m => {
+        contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
+      });
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents, generationConfig: { maxOutputTokens: 1000 } })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
+      const data = await res.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
+
+    } else if (provider === 'groq') {
+      const oaiMessages = [{ role: 'system', content: systemPrompt }];
+      last8.forEach(m => oaiMessages.push({ role: m.role, content: m.content }));
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, messages: oaiMessages })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || 'No response generated.';
+
+    } else if (provider === 'openrouter') {
+      const oaiMessages = [{ role: 'system', content: systemPrompt }];
+      last8.forEach(m => oaiMessages.push({ role: m.role, content: m.content }));
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'HTTP-Referer': window.location.href,
+          'X-Title': 'CL Agent'
+        },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, messages: oaiMessages })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || 'No response generated.';
+    }
+  } catch (e) {
+    return `**Error:** ${e.message}. Please check your API key in Settings or try again.`;
+  }
+}
+
+// Backwards-compatible alias
+const callClaude = callLLM;
+
+async function sendGreeting() {
+  setStatus(true);
+  const name = localStorage.getItem('cl_username') || 'there';
+  const data = refreshStatuses();
+  const overdue = data.filter(m => m.status === 'overdue').length;
+  const dueSoon = data.filter(m => m.status === 'due-soon').length;
+  const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  const greeting = `**Good ${getTimeOfDay()}, ${name}!** 👋
+
+Today is **${today}**.
+
+Here's your quick status snapshot:
+- **${overdue}** mocks are overdue
+- **${dueSoon}** mocks are due within the next 7 days
+- **${data.filter(m => m.status !== 'done').length}** total mocks in your pipeline
+
+How can I help you today? You can type a request or use the quick-action buttons below.`;
+
+  addChatMessage('assistant', greeting);
+  conversationHistory.push({ role: 'assistant', content: greeting });
+  setStatus(false);
+}
+
+function getTimeOfDay() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+async function sendMessage(preset) {
+  const input = document.getElementById('chat-input');
+  const msg = preset || input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  addChatMessage('user', msg);
+  conversationHistory.push({ role: 'user', content: msg });
+  setStatus(true);
+
+  const reply = await callClaude(conversationHistory, getSystemPrompt());
+  if (reply) {
+    addChatMessage('assistant', reply);
+    conversationHistory.push({ role: 'assistant', content: reply });
+  }
+  setStatus(false);
+}
+
+// Quick action buttons
+document.querySelectorAll('.quick-btn').forEach(btn => {
+  btn.addEventListener('click', () => sendMessage(btn.dataset.msg));
+});
+
+// Enter key to send
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+// ===== CREATE — DOCX =====
+async function generateDocx() {
+  const exam = document.getElementById('doc-exam').value;
+  const section = document.getElementById('doc-section').value;
+  const mockNum = document.getElementById('doc-mocknum').value.trim() || 'Mock 1';
+  const numQ = parseInt(document.getElementById('doc-numq').value) || 25;
+  const instructions = document.getElementById('doc-instructions').value.trim();
+
+  showGenerating('Generating ' + numQ + ' questions with AI...');
+
+  const prompt = `Generate a mock exam section for ${exam} — ${section} — ${mockNum}.
+Create exactly ${numQ} multiple-choice questions appropriate for ${exam} ${section}.
+${instructions ? 'Additional instructions: ' + instructions : ''}
+
+Format your response EXACTLY as follows for each question:
+Q1. [question text]
+(A) [option A]
+(B) [option B]
+(C) [option C]
+(D) [option D]
+Answer: [correct letter]
+Explanation: [brief explanation]
+
+Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
+
+  const content = await callClaude([{ role: 'user', content: prompt }], 'You are an expert exam content creator for Indian competitive exams. Generate high-quality, exam-appropriate questions.');
+
+  if (!content || content.startsWith('**Error')) {
+    hideGenerating();
+    alert('Failed to generate content. Check your API key.');
+    return;
+  }
+
+  showGenerating('Building Word document...');
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Header, Footer, PageNumber } = docx;
+    const today = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const children = [
+      new Paragraph({
+        children: [new TextRun({ text: `${exam} — ${mockNum}`, bold: true, size: 36, font: 'Arial', color: '1A5EA8' })],
+        spacing: { after: 100 },
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: `${section} | ${today}`, size: 24, font: 'Arial', color: '666666' })],
+        spacing: { after: 400 },
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: '─'.repeat(60), color: 'CCCCCC', size: 20 })],
+        spacing: { after: 200 },
+      }),
+    ];
+
+    // Parse and add content
+    const lines = content.split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { children.push(new Paragraph({ spacing: { after: 100 } })); continue; }
+
+      if (/^Q\d+\./.test(trimmed)) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, bold: true, size: 24, font: 'Arial' })],
+          spacing: { before: 300, after: 100 },
+        }));
+      } else if (/^\([A-D]\)/.test(trimmed)) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, size: 24, font: 'Arial' })],
+          spacing: { after: 60 },
+          indent: { left: 360 },
+        }));
+      } else if (/^Answer:/.test(trimmed)) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, bold: true, size: 24, font: 'Arial', color: '1A5EA8' })],
+          spacing: { before: 120, after: 60 },
+        }));
+      } else if (/^Explanation:/.test(trimmed)) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, italics: true, size: 22, font: 'Arial', color: '555555' })],
+          spacing: { after: 200 },
+        }));
+      } else {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, size: 24, font: 'Arial' })],
+          spacing: { after: 60 },
+        }));
+      }
+    }
+
+    const doc = new Document({
+      sections: [{
+        properties: {
+          page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } }
+        },
+        children
+      }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const filename = `${exam}_${mockNum.replace(/\s+/g, '_')}_${section.replace(/\s+/g, '_')}.docx`;
+    downloadBlob(blob, filename);
+    addFileRecord(filename, 'DOCX');
+    hideGenerating();
+  } catch (e) {
+    hideGenerating();
+    alert('Error creating Word document: ' + e.message);
+  }
+}
+
+// ===== CREATE — PPTX =====
+async function generatePptx() {
+  const topic = document.getElementById('ppt-topic').value.trim();
+  const exam = document.getElementById('ppt-exam').value;
+  const numSlides = parseInt(document.getElementById('ppt-slides').value) || 10;
+  const style = document.getElementById('ppt-style').value;
+
+  if (!topic) { alert('Please enter a topic.'); return; }
+
+  showGenerating('Generating slide content with AI...');
+
+  const prompt = `Create a presentation on "${topic}" for ${exam} exam preparation.
+Generate exactly ${numSlides - 2} content slides (I will add a title slide and a thank-you slide separately).
+
+Format your response EXACTLY as follows for each slide:
+SLIDE 1: [Slide title]
+- [Bullet point 1]
+- [Bullet point 2]
+- [Bullet point 3]
+- [Bullet point 4]
+
+SLIDE 2: [Slide title]
+- [Bullet point 1]
+...
+
+Each slide should have 4-6 bullet points. Be educational, concise, and exam-focused.`;
+
+  const content = await callClaude([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher.');
+
+  if (!content || content.startsWith('**Error')) {
+    hideGenerating();
+    alert('Failed to generate content. Check your API key.');
+    return;
+  }
+
+  showGenerating('Building PowerPoint file...');
+
+  try {
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_WIDE';
+
+    // Style config
+    const styles = {
+      'Clean White': { bg: 'FFFFFF', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFFFFF' },
+      'Dark Professional': { bg: '1a2340', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: 'f0f2f8', bodyBg: '1a2340' },
+      'Colourful Education': { bg: 'FFF8E7', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFF8E7' },
+    };
+    const s = styles[style] || styles['Clean White'];
+
+    // Title slide
+    const titleSlide = pptx.addSlide();
+    titleSlide.background = { color: s.titleBg };
+    titleSlide.addShape(pptx.ShapeType.rect, { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fill: { color: 'F5C842' }, rectRadius: 0.15 });
+    titleSlide.addText('CL', { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fontSize: 32, bold: true, color: '000000', align: 'center', valign: 'middle' });
+    titleSlide.addText(topic, { x: 0.8, y: 2.2, w: 11, h: 1.5, fontSize: 36, bold: true, color: 'FFFFFF', align: 'left' });
+    titleSlide.addText(`${exam} Exam Preparation | Career Launcher`, { x: 0.8, y: 3.8, w: 11, h: 0.8, fontSize: 18, color: 'AACCEE', align: 'left' });
+
+    // Parse content slides
+    const slideBlocks = content.split(/SLIDE\s+\d+:\s*/i).filter(b => b.trim());
+    for (const block of slideBlocks) {
+      const lines = block.trim().split('\n').filter(l => l.trim());
+      if (!lines.length) continue;
+      const slideTitle = lines[0].replace(/^#+\s*/, '').trim();
+      const bullets = lines.slice(1).filter(l => l.trim().startsWith('-')).map(l => l.replace(/^-\s*/, '').trim());
+
+      const slide = pptx.addSlide();
+      slide.background = { color: s.bodyBg };
+
+      // Title bar
+      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.33, h: 1.2, fill: { color: s.titleBg } });
+      slide.addText(slideTitle, { x: 0.5, y: 0.1, w: 12, h: 1, fontSize: 28, bold: true, color: s.titleColor, align: 'left', valign: 'middle' });
+
+      // Bullets
+      if (bullets.length) {
+        slide.addText(bullets.map(b => ({ text: b, options: { bullet: true, fontSize: 20, color: s.textColor, breakLine: true, lineSpacingMultiple: 1.5 } })),
+          { x: 0.8, y: 1.6, w: 11, h: 5, valign: 'top' });
+      }
+
+      // CL branding
+      slide.addText('CL', { x: 12, y: 6.8, w: 1, h: 0.5, fontSize: 14, bold: true, color: '1A5EA8', align: 'right' });
+    }
+
+    // Thank you slide
+    const tySlide = pptx.addSlide();
+    tySlide.background = { color: s.titleBg };
+    tySlide.addText('Thank You!', { x: 1, y: 2, w: 11, h: 2, fontSize: 44, bold: true, color: 'FFFFFF', align: 'center', valign: 'middle' });
+    tySlide.addText(`${topic} | ${exam} | Career Launcher`, { x: 1, y: 4.2, w: 11, h: 1, fontSize: 18, color: 'AACCEE', align: 'center' });
+
+    const filename = `${topic.replace(/\s+/g, '_')}_${exam}_CL.pptx`;
+    await pptx.writeFile({ fileName: filename });
+    addFileRecord(filename, 'PPTX');
+    hideGenerating();
+  } catch (e) {
+    hideGenerating();
+    alert('Error creating PowerPoint: ' + e.message);
+  }
+}
+
+// ===== FILES =====
+function addFileRecord(filename, type) {
+  const now = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  sessionFiles.push({ filename, type, time: now });
+  renderFiles();
+}
+
+function renderFiles() {
+  const list = document.getElementById('files-list');
+  if (!sessionFiles.length) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">&#128194;</div><p>No files generated yet. Go to the <strong>Create</strong> tab to get started.</p></div>';
+    return;
+  }
+  list.innerHTML = sessionFiles.map((f, i) => `
+    <div class="file-row">
+      <div class="file-icon ${f.type.toLowerCase()}">${f.type}</div>
+      <div class="file-info">
+        <div class="name">${esc(f.filename)}</div>
+        <div class="meta">${f.type} • Generated at ${f.time}</div>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="alert('File was downloaded when generated. Check your Downloads folder.')">Re-download</button>
+    </div>
+  `).join('');
+}
+
+// ===== UTILITIES =====
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function showGenerating(text) {
+  document.getElementById('gen-text').textContent = text;
+  document.getElementById('gen-overlay').classList.add('active');
+}
+function hideGenerating() {
+  document.getElementById('gen-overlay').classList.remove('active');
+}
+
+// Close modal on overlay click
+document.getElementById('mock-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('mock-modal')) closeModal();
+});
+
+// ===== INIT =====
+init();
+</script>
+</body>
+</html>
