@@ -424,6 +424,56 @@ textarea { resize: vertical; min-height: 80px; }
 }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state p { font-size: 14px; }
+.file-icon.upload { background: rgba(34,197,94,0.15); color: var(--green); }
+
+/* ========== CONTENT EDITOR (Create tab preview) ========== */
+.content-editor-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center; z-index: 150;
+  backdrop-filter: blur(4px);
+}
+.content-editor-overlay.active { display: flex; }
+.content-editor {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px; width: 90%; max-width: 800px; max-height: 85vh;
+  display: flex; flex-direction: column; box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.content-editor h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.content-editor .editor-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+.content-editor textarea {
+  flex: 1; min-height: 350px; max-height: 55vh; font-family: 'Courier New', monospace;
+  font-size: 13px; line-height: 1.6; resize: vertical;
+}
+.content-editor .editor-actions {
+  display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap;
+}
+.content-editor .editor-actions .btn { min-width: 120px; }
+
+/* ========== FILE UPLOAD AREA (Agent tab) ========== */
+.file-upload-wrap {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+}
+.file-upload-btn {
+  padding: 6px 14px; border: 1px dashed var(--border);
+  background: transparent; color: var(--text-secondary);
+  border-radius: 20px; font-family: inherit; font-size: 12px;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+}
+.file-upload-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(26,94,168,0.1); }
+.attached-files {
+  display: flex; flex-wrap: wrap; gap: 6px; flex: 1;
+}
+.attached-file-chip {
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 10px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; font-size: 11px; color: var(--text-secondary);
+}
+.attached-file-chip .remove-file {
+  cursor: pointer; color: var(--text-muted); font-size: 13px; margin-left: 2px;
+}
+.attached-file-chip .remove-file:hover { color: var(--red); }
 
 /* Scrollbar global */
 ::-webkit-scrollbar { width: 6px; }
@@ -532,6 +582,11 @@ textarea { resize: vertical; min-height: 80px; }
           <button class="quick-btn" data-msg="What mocks are overdue?">&#128197; What's overdue?</button>
           <button class="quick-btn" data-msg="Show me what's due this month">&#128202; This month's schedule</button>
           <button class="quick-btn" data-msg="Make a YouTube PPT on Parajumbles">&#10022; YouTube PPT</button>
+        </div>
+        <div class="file-upload-wrap">
+          <button class="file-upload-btn" onclick="document.getElementById('agent-file-input').click()">&#128206; Attach file</button>
+          <input type="file" id="agent-file-input" style="display:none;" multiple onchange="handleAgentFileUpload(this)">
+          <div class="attached-files" id="attached-files"></div>
         </div>
         <div class="chat-input-wrap">
           <input type="text" id="chat-input" placeholder="Ask CL Agent anything..." autocomplete="off">
@@ -719,6 +774,20 @@ textarea { resize: vertical; min-height: 80px; }
   </div>
 </div>
 
+<!-- ===== CONTENT EDITOR MODAL ===== -->
+<div class="content-editor-overlay" id="editor-overlay">
+  <div class="content-editor">
+    <h3 id="editor-title">Review & Edit Content</h3>
+    <p class="editor-subtitle" id="editor-subtitle">Edit the AI-generated content below, then download or regenerate.</p>
+    <textarea id="editor-content"></textarea>
+    <div class="editor-actions">
+      <button class="btn btn-secondary" onclick="closeEditor()">Cancel</button>
+      <button class="btn btn-secondary" id="editor-regen-btn" onclick="editorRegenerate()">&#8635; Regenerate</button>
+      <button class="btn btn-primary" id="editor-download-btn" onclick="editorDownload()">&#128229; Download</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== GENERATING OVERLAY ===== -->
 <div class="generating-overlay" id="gen-overlay">
   <div class="generating-box">
@@ -733,6 +802,15 @@ let conversationHistory = [];
 let sessionFiles = [];
 let currentScheduleView = 'table';
 let currentUser = null;
+let agentAttachedFiles = []; // files attached via Agent tab
+
+// Editor state — tracks what's being edited so we can re-download or regenerate
+let editorState = {
+  type: null,        // 'docx' or 'pptx'
+  rawContent: null,  // AI-generated text content
+  meta: {},          // exam, section, mockNum, topic, etc.
+  fileIndex: null,   // if editing from Files tab, index into sessionFiles
+};
 
 // ===== AUTHENTICATION =====
 function initAccounts() {
@@ -1419,8 +1497,16 @@ async function sendMessage(preset) {
   if (!msg) return;
   input.value = '';
 
-  addChatMessage('user', msg);
-  conversationHistory.push({ role: 'user', content: msg });
+  // If files are attached, save them and mention in chat
+  const attachedNames = agentAttachedFiles.map(f => f.name);
+  if (attachedNames.length) {
+    saveAttachedFilesToFilesList();
+    addChatMessage('user', msg + '\n[Attached: ' + attachedNames.join(', ') + ']');
+    conversationHistory.push({ role: 'user', content: msg + '\n[Files attached: ' + attachedNames.join(', ') + ']' });
+  } else {
+    addChatMessage('user', msg);
+    conversationHistory.push({ role: 'user', content: msg });
+  }
   setStatus(true);
 
   const reply = await callClaude(conversationHistory, getSystemPrompt());
@@ -1475,10 +1561,25 @@ Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
     return;
   }
 
-  showGenerating('Building Word document...');
+  hideGenerating();
 
+  // Show editor for review before downloading
+  editorState = {
+    type: 'docx',
+    rawContent: content,
+    meta: { exam, section, mockNum, numQ, instructions },
+    fileIndex: null,
+  };
+  openEditor('Review & Edit — Word Document',
+    `Review and edit the AI-generated content below. Click Download when you're happy, or Regenerate to get fresh content.`,
+    content);
+}
+
+// Build DOCX from raw text content and download
+async function buildAndDownloadDocx(content, meta) {
+  const { exam, section, mockNum } = meta;
   try {
-    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Header, Footer, PageNumber } = docx;
+    const { Document, Packer, Paragraph, TextRun } = docx;
     const today = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const children = [
@@ -1491,12 +1592,11 @@ Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
         spacing: { after: 400 },
       }),
       new Paragraph({
-        children: [new TextRun({ text: '─'.repeat(60), color: 'CCCCCC', size: 20 })],
+        children: [new TextRun({ text: '\u2500'.repeat(60), color: 'CCCCCC', size: 20 })],
         spacing: { after: 200 },
       }),
     ];
 
-    // Parse and add content
     const lines = content.split('\n');
     for (const line of lines) {
       const trimmed = line.trim();
@@ -1543,10 +1643,8 @@ Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
     const blob = await Packer.toBlob(doc);
     const filename = `${exam}_${mockNum.replace(/\s+/g, '_')}_${section.replace(/\s+/g, '_')}.docx`;
     downloadBlob(blob, filename);
-    addFileRecord(filename, 'DOCX');
-    hideGenerating();
+    addFileRecord(filename, 'DOCX', content, meta);
   } catch (e) {
-    hideGenerating();
     alert('Error creating Word document: ' + e.message);
   }
 }
@@ -1587,13 +1685,27 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
     return;
   }
 
-  showGenerating('Building PowerPoint file...');
+  hideGenerating();
 
+  // Show editor for review before downloading
+  editorState = {
+    type: 'pptx',
+    rawContent: content,
+    meta: { topic, exam, numSlides, style },
+    fileIndex: null,
+  };
+  openEditor('Review & Edit — PowerPoint',
+    `Review and edit the slide content below. Click Download when you're happy, or Regenerate to get fresh content.`,
+    content);
+}
+
+// Build PPTX from raw text content and download
+async function buildAndDownloadPptx(content, meta) {
+  const { topic, exam, style } = meta;
   try {
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_WIDE';
 
-    // Style config
     const styles = {
       'Clean White': { bg: 'FFFFFF', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFFFFF' },
       'Dark Professional': { bg: '1a2340', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: 'f0f2f8', bodyBg: '1a2340' },
@@ -1601,7 +1713,6 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
     };
     const s = styles[style] || styles['Clean White'];
 
-    // Title slide
     const titleSlide = pptx.addSlide();
     titleSlide.background = { color: s.titleBg };
     titleSlide.addShape(pptx.ShapeType.rect, { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fill: { color: 'F5C842' }, rectRadius: 0.15 });
@@ -1609,7 +1720,6 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
     titleSlide.addText(topic, { x: 0.8, y: 2.2, w: 11, h: 1.5, fontSize: 36, bold: true, color: 'FFFFFF', align: 'left' });
     titleSlide.addText(`${exam} Exam Preparation | Career Launcher`, { x: 0.8, y: 3.8, w: 11, h: 0.8, fontSize: 18, color: 'AACCEE', align: 'left' });
 
-    // Parse content slides
     const slideBlocks = content.split(/SLIDE\s+\d+:\s*/i).filter(b => b.trim());
     for (const block of slideBlocks) {
       const lines = block.trim().split('\n').filter(l => l.trim());
@@ -1619,22 +1729,16 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
 
       const slide = pptx.addSlide();
       slide.background = { color: s.bodyBg };
-
-      // Title bar
       slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.33, h: 1.2, fill: { color: s.titleBg } });
       slide.addText(slideTitle, { x: 0.5, y: 0.1, w: 12, h: 1, fontSize: 28, bold: true, color: s.titleColor, align: 'left', valign: 'middle' });
 
-      // Bullets
       if (bullets.length) {
         slide.addText(bullets.map(b => ({ text: b, options: { bullet: true, fontSize: 20, color: s.textColor, breakLine: true, lineSpacingMultiple: 1.5 } })),
           { x: 0.8, y: 1.6, w: 11, h: 5, valign: 'top' });
       }
-
-      // CL branding
       slide.addText('CL', { x: 12, y: 6.8, w: 1, h: 0.5, fontSize: 14, bold: true, color: '1A5EA8', align: 'right' });
     }
 
-    // Thank you slide
     const tySlide = pptx.addSlide();
     tySlide.background = { color: s.titleBg };
     tySlide.addText('Thank You!', { x: 1, y: 2, w: 11, h: 2, fontSize: 44, bold: true, color: 'FFFFFF', align: 'center', valign: 'middle' });
@@ -1642,25 +1746,23 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
 
     const filename = `${topic.replace(/\s+/g, '_')}_${exam}_CL.pptx`;
     await pptx.writeFile({ fileName: filename });
-    addFileRecord(filename, 'PPTX');
-    hideGenerating();
+    addFileRecord(filename, 'PPTX', content, meta);
   } catch (e) {
-    hideGenerating();
     alert('Error creating PowerPoint: ' + e.message);
   }
 }
 
 // ===== FILES =====
-function addFileRecord(filename, type) {
+function addFileRecord(filename, type, rawContent, meta) {
   const now = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-  sessionFiles.push({ filename, type, time: now });
+  sessionFiles.push({ filename, type, time: now, rawContent: rawContent || null, meta: meta || null });
   renderFiles();
 }
 
 function renderFiles() {
   const list = document.getElementById('files-list');
   if (!sessionFiles.length) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">&#128194;</div><p>No files generated yet. Go to the <strong>Create</strong> tab to get started.</p></div>';
+    list.innerHTML = '<div class="empty-state"><div class="icon">&#128194;</div><p>No files generated yet. Go to the <strong>Create</strong> tab to get started, or attach files on the Agent tab.</p></div>';
     return;
   }
   list.innerHTML = sessionFiles.map((f, i) => `
@@ -1668,11 +1770,158 @@ function renderFiles() {
       <div class="file-icon ${f.type.toLowerCase()}">${f.type}</div>
       <div class="file-info">
         <div class="name">${esc(f.filename)}</div>
-        <div class="meta">${f.type} • Generated at ${f.time}</div>
+        <div class="meta">${f.type} • ${f.time}${f.size ? ' • ' + f.size : ''}</div>
       </div>
-      <button class="btn btn-sm btn-secondary" onclick="alert('File was downloaded when generated. Check your Downloads folder.')">Re-download</button>
+      ${f.rawContent ? `<button class="btn btn-sm btn-secondary" onclick="editFileFromList(${i})">&#9998; Edit</button>` : ''}
+      ${f.rawContent ? `<button class="btn btn-sm btn-secondary" onclick="redownloadFile(${i})">&#128229; Download</button>` : ''}
+      ${f.dataUrl ? `<button class="btn btn-sm btn-secondary" onclick="downloadDataUrl(${i})">&#128229; Download</button>` : ''}
     </div>
   `).join('');
+}
+
+function editFileFromList(index) {
+  const f = sessionFiles[index];
+  if (!f || !f.rawContent) return;
+  editorState = {
+    type: f.type.toLowerCase(),
+    rawContent: f.rawContent,
+    meta: f.meta || {},
+    fileIndex: index,
+  };
+  const label = f.type === 'DOCX' ? 'Word Document' : 'PowerPoint';
+  openEditor(`Edit — ${label}`,
+    `Edit the content and download an updated file.`,
+    f.rawContent);
+}
+
+async function redownloadFile(index) {
+  const f = sessionFiles[index];
+  if (!f || !f.rawContent) return;
+  if (f.type === 'DOCX') {
+    await buildAndDownloadDocx(f.rawContent, f.meta);
+  } else if (f.type === 'PPTX') {
+    await buildAndDownloadPptx(f.rawContent, f.meta);
+  }
+}
+
+function downloadDataUrl(index) {
+  const f = sessionFiles[index];
+  if (!f || !f.dataUrl) return;
+  const a = document.createElement('a');
+  a.href = f.dataUrl;
+  a.download = f.filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ===== CONTENT EDITOR =====
+function openEditor(title, subtitle, content) {
+  document.getElementById('editor-title').textContent = title;
+  document.getElementById('editor-subtitle').textContent = subtitle;
+  document.getElementById('editor-content').value = content;
+  // Show/hide regenerate button based on context
+  document.getElementById('editor-regen-btn').style.display = editorState.fileIndex !== null ? 'none' : 'inline-flex';
+  document.getElementById('editor-overlay').classList.add('active');
+}
+
+function closeEditor() {
+  document.getElementById('editor-overlay').classList.remove('active');
+  editorState = { type: null, rawContent: null, meta: {}, fileIndex: null };
+}
+
+async function editorDownload() {
+  const content = document.getElementById('editor-content').value;
+  const savedState = { ...editorState };
+  document.getElementById('editor-overlay').classList.remove('active');
+
+  if (savedState.type === 'docx') {
+    await buildAndDownloadDocx(content, savedState.meta);
+    if (savedState.fileIndex !== null && sessionFiles[savedState.fileIndex]) {
+      sessionFiles[savedState.fileIndex].rawContent = content;
+      renderFiles();
+    }
+  } else if (savedState.type === 'pptx') {
+    await buildAndDownloadPptx(content, savedState.meta);
+    if (savedState.fileIndex !== null && sessionFiles[savedState.fileIndex]) {
+      sessionFiles[savedState.fileIndex].rawContent = content;
+      renderFiles();
+    }
+  }
+  editorState = { type: null, rawContent: null, meta: {}, fileIndex: null };
+}
+
+async function editorRegenerate() {
+  const savedType = editorState.type;
+  document.getElementById('editor-overlay').classList.remove('active');
+  editorState = { type: null, rawContent: null, meta: {}, fileIndex: null };
+  if (savedType === 'docx') {
+    generateDocx();
+  } else if (savedType === 'pptx') {
+    generatePptx();
+  }
+}
+
+// ===== AGENT FILE UPLOAD =====
+function handleAgentFileUpload(input) {
+  const files = Array.from(input.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      agentAttachedFiles.push({
+        name: file.name,
+        size: formatFileSize(file.size),
+        dataUrl: e.target.result,
+        type: file.type,
+      });
+      renderAttachedFiles();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = ''; // reset so same file can be re-attached
+}
+
+function renderAttachedFiles() {
+  const container = document.getElementById('attached-files');
+  container.innerHTML = agentAttachedFiles.map((f, i) => `
+    <div class="attached-file-chip">
+      &#128196; ${esc(f.name)} (${f.size})
+      <span class="remove-file" onclick="removeAttachedFile(${i})">&#10005;</span>
+    </div>
+  `).join('');
+}
+
+function removeAttachedFile(index) {
+  agentAttachedFiles.splice(index, 1);
+  renderAttachedFiles();
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+function saveAttachedFilesToFilesList() {
+  // Move currently attached files to the Files tab
+  agentAttachedFiles.forEach(f => {
+    const ext = f.name.split('.').pop().toUpperCase();
+    const now = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    sessionFiles.push({
+      filename: f.name,
+      type: ext.length <= 4 ? ext : 'FILE',
+      time: now,
+      size: f.size,
+      rawContent: null,
+      meta: null,
+      dataUrl: f.dataUrl,
+    });
+  });
+  if (agentAttachedFiles.length) {
+    renderFiles();
+    agentAttachedFiles = [];
+    renderAttachedFiles();
+  }
 }
 
 // ===== UTILITIES =====
@@ -1708,6 +1957,9 @@ function hideGenerating() {
 // Close modal on overlay click
 document.getElementById('mock-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('mock-modal')) closeModal();
+});
+document.getElementById('editor-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('editor-overlay')) closeEditor();
 });
 
 // ===== INIT =====
