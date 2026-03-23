@@ -134,6 +134,51 @@
             transform: rotate(20deg);
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                color: inherit;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: inherit;
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
         /* Hero Section */
         .hero {
             padding: 4rem 2rem;
@@ -357,6 +402,78 @@
                 font-size: 1.25rem;
             }
         }
+
+        /* Cookie Consent Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1E1B4B;
+            border-top: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            z-index: 9999;
+            font-size: 14px;
+            color: #E5E7EB;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+
+        .cookie-banner.hidden { display: none; }
+
+        .cookie-banner p { margin: 0; flex: 1; line-height: 1.5; }
+
+        .cookie-banner a { color: #8B5CF6; text-decoration: underline; }
+
+        .cookie-banner-buttons { display: flex; gap: 10px; flex-shrink: 0; }
+
+        .cookie-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .cookie-btn-accept {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            color: white;
+        }
+
+        .cookie-btn-decline {
+            background: transparent;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #E5E7EB;
+        }
+
+        .cookie-btn:hover { transform: translateY(-1px); }
+
+        html[data-theme="light"] .cookie-banner {
+            background: #FFFFFF;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            color: #1E1B4B;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        html[data-theme="light"] .cookie-btn-decline {
+            color: #1E1B4B;
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .cookie-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px;
+            }
+            .cookie-banner-buttons { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -380,14 +497,15 @@
                 </svg>
                 TestMagicks
             </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
             <div class="nav-links">
                 <a href="testmagicks-website.html">Home</a>
                 <a href="features.html">Features</a>
                 <a href="pricing.html">Pricing</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-                <a href="blog.html">Blog</a>
-                <a href="case-studies.html">Case Studies</a>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
             </div>
         </nav-content>
@@ -577,15 +695,15 @@
                 <h4>Company</h4>
                 <a href="blog.html">Blog</a>
                 <a href="case-studies.html">Case Studies</a>
-                <a href="#">Careers</a>
-                <a href="#">Press</a>
+                
+                
             </div>
             <div class="footer-section">
                 <h4>Legal</h4>
                 <a href="privacy.html">Privacy Policy</a>
                 <a href="terms.html">Terms of Service</a>
-                <a href="#">Security</a>
-                <a href="#">Cookie Settings</a>
+                <a href="privacy.html">Security</a>
+                <a href="privacy.html">Cookie Settings</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -622,6 +740,28 @@
                 link.classList.add('active');
             }
         });
+
+        // Cookie Consent
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieBanner').classList.add('hidden');
+        }
+        function declineCookies() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieBanner').classList.add('hidden');
+        }
+        (function() {
+            const consent = localStorage.getItem('cookieConsent');
+            if (consent) document.getElementById('cookieBanner').classList.add('hidden');
+        })();
     </script>
+
+    <div class="cookie-banner" id="cookieBanner">
+        <p>We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our <a href="privacy.html">Privacy Policy</a>.</p>
+        <div class="cookie-banner-buttons">
+            <button class="cookie-btn cookie-btn-decline" onclick="declineCookies()">Decline</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="acceptCookies()">Accept</button>
+        </div>
+    </div>
 </body>
 </html>

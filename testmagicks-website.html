@@ -157,10 +157,51 @@
             margin-left: 20px;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                color: inherit;
+            }
+
             .nav-links {
                 display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: inherit;
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+                z-index: 1000;
+                list-style: none;
             }
+
+            .nav-links.active {
+                display: flex;
+            }
+
             .nav-cta {
                 margin-left: 0;
             }
@@ -844,45 +885,6 @@
             height: 100%;
         }
 
-        /* ===== WHATSAPP WIDGET ===== */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 56px;
-            height: 56px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            animation: pulse-whatsapp 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
-            animation: none;
-        }
-
-        .whatsapp-float svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
-        }
-
-        @keyframes pulse-whatsapp {
-            0%, 100% {
-                box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.6);
-            }
-        }
 
         /* ===== TOAST NOTIFICATIONS ===== */
         .toast {
@@ -1166,6 +1168,10 @@
             color: #1E1B4B;
         }
 
+        html[data-theme="light"] .logo-section {
+            color: #1E1B4B;
+        }
+
         html[data-theme="light"] nav {
             background: rgba(245, 243, 255, 0.95);
             border-bottom: 1px solid rgba(139, 92, 246, 0.2);
@@ -1195,6 +1201,13 @@
             box-shadow: 0 4px 24px rgba(0,0,0,0.06);
         }
 
+        html[data-theme="light"] .hero-buttons .gradient-button[style*="transparent"] {
+            background: transparent !important;
+            border: 2px solid #7C3AED !important;
+            color: #7C3AED !important;
+            -webkit-text-fill-color: #7C3AED !important;
+        }
+
         html[data-theme="light"] .stat-number,
         html[data-theme="light"] .section-title,
         html[data-theme="light"] h2,
@@ -1207,8 +1220,12 @@
         html[data-theme="light"] .step-desc,
         html[data-theme="light"] .faq-answer,
         html[data-theme="light"] .pricing-feature,
-        html[data-theme="light"] .testimonial-text {
-            color: #6B7280;
+        html[data-theme="light"] .testimonial-text,
+        html[data-theme="light"] .proof-text,
+        html[data-theme="light"] .trusted-by-label,
+        html[data-theme="light"] .logo-card,
+        html[data-theme="light"] .step p {
+            color: #4B5563;
         }
 
         html[data-theme="light"] .feature-card,
@@ -1245,6 +1262,14 @@
             background: rgba(255, 255, 255, 0.5);
         }
 
+        html[data-theme="light"] .cta-section h2 {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .cta-section p {
+            color: #4B5563;
+        }
+
         html[data-theme="light"] .cta-input {
             background: rgba(245, 243, 255, 0.9);
             border: 1px solid rgba(139, 92, 246, 0.3);
@@ -1252,7 +1277,7 @@
         }
 
         html[data-theme="light"] .cta-input::placeholder {
-            color: #9CA3AF;
+            color: #6B7280;
         }
 
         html[data-theme="light"] footer {
@@ -1270,6 +1295,190 @@
 
         html[data-theme="light"] .hero-visual .glass-card {
             background: rgba(255, 255, 255, 0.6);
+        }
+
+        html[data-theme="light"] .social-proof {
+            background: rgba(255, 255, 255, 0.3);
+            border-top-color: rgba(139, 92, 246, 0.3);
+            border-bottom-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .proof-content {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .how-it-works {
+            background: rgba(255, 255, 255, 0.3);
+            border-top-color: rgba(139, 92, 246, 0.3);
+            border-bottom-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .step h3 {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .logo-card {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .trusted-by-section {
+            background: transparent;
+        }
+
+        html[data-theme="light"] .mockup-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        html[data-theme="light"] .mockup-card > div {
+            color: #6B7280;
+        }
+
+        html[data-theme="light"] .section-header h2,
+        html[data-theme="light"] .section-header h3 {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .section-header p {
+            color: #4B5563;
+        }
+
+        html[data-theme="light"] .testimonial-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .testimonial-card h4,
+        html[data-theme="light"] .testimonial-card .testimonial-role {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .step-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .pricing-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        html[data-theme="light"] .pricing-card.featured {
+            background: #FFFFFF;
+            border-color: #7C3AED;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
+        }
+
+        html[data-theme="light"] .pricing-tier,
+        html[data-theme="light"] .pricing-tier h3 {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .pricing-price {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .pricing-features li {
+            color: #4B5563;
+        }
+
+        html[data-theme="light"] .faq-container {
+            background: transparent;
+        }
+
+        html[data-theme="light"] .faq-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(139, 92, 246, 0.25);
+        }
+
+        html[data-theme="light"] .faq-item.active {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        html[data-theme="light"] .faq-question {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .faq-answer-text {
+            color: #4B5563;
+        }
+
+        html[data-theme="light"] .faq-icon {
+            color: #7C3AED;
+        }
+
+        /* Cookie Consent Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1E1B4B;
+            border-top: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            z-index: 9999;
+            font-size: 14px;
+            color: #E5E7EB;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+
+        .cookie-banner.hidden { display: none; }
+
+        .cookie-banner p { margin: 0; flex: 1; line-height: 1.5; }
+
+        .cookie-banner a { color: #8B5CF6; text-decoration: underline; }
+
+        .cookie-banner-buttons { display: flex; gap: 10px; flex-shrink: 0; }
+
+        .cookie-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .cookie-btn-accept {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            color: white;
+        }
+
+        .cookie-btn-decline {
+            background: transparent;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #E5E7EB;
+        }
+
+        .cookie-btn:hover { transform: translateY(-1px); }
+
+        html[data-theme="light"] .cookie-banner {
+            background: #FFFFFF;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            color: #1E1B4B;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        html[data-theme="light"] .cookie-btn-decline {
+            color: #1E1B4B;
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .cookie-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px;
+            }
+            .cookie-banner-buttons { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -1299,6 +1508,9 @@
                 </svg>
                 TestMagicks
             </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="features.html">Features</a></li>
                 <li><a href="pricing.html">Pricing</a></li>
@@ -1306,7 +1518,7 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <button class="theme-toggle-btn" id="themeToggle" title="Toggle theme">&#9790;</button>
-            <button class="gradient-button nav-cta" onclick="document.querySelector('.cta-input').focus()">Get Started</button>
+            <button class="gradient-button nav-cta" onclick="window.location.href='index.html'">Get Started</button>
         </div>
     </nav>
 
@@ -1321,7 +1533,7 @@
                     </h1>
                     <p>Generate complete mock exams, branded presentations, and quality-reviewed content in seconds. NEXT-GEN TEST INTELLIGENCE for CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET and more.</p>
                     <div class="hero-buttons">
-                        <button class="gradient-button" onclick="document.querySelector('.cta-input').focus()">Start Free Trial</button>
+                        <button class="gradient-button" onclick="window.location.href='index.html'">Start Free Trial</button>
                         <button class="gradient-button" style="background: transparent; border: 1px solid rgba(139, 92, 246, 0.5);" onclick="openDemoModal()">Watch Demo</button>
                     </div>
                 </div>
@@ -1465,7 +1677,7 @@
                     <li>Standard support</li>
                     <li>DOCX & PPTX export</li>
                 </ul>
-                <button class="pricing-button">Get Started</button>
+                <button class="pricing-button" onclick="window.location.href='index.html'">Get Started</button>
             </div>
             <div class="pricing-card featured fade-in">
                 <div class="pricing-tier">Pro</div>
@@ -1479,7 +1691,7 @@
                     <li>Priority email support</li>
                     <li>Advanced analytics</li>
                 </ul>
-                <button class="pricing-button">Start Free Trial</button>
+                <button class="pricing-button" onclick="window.location.href='index.html'">Start Free Trial</button>
             </div>
             <div class="pricing-card fade-in">
                 <div class="pricing-tier">Institute</div>
@@ -1493,7 +1705,7 @@
                     <li>API access</li>
                     <li>Dedicated support</li>
                 </ul>
-                <button class="pricing-button">Contact Sales</button>
+                <button class="pricing-button" onclick="window.location.href='contact.html'">Contact Sales</button>
             </div>
         </div>
     </section>
@@ -1510,24 +1722,24 @@
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"TestMagicks has transformed how we create mock exams. What used to take us 20 hours now takes 20 minutes. The QC agent ensures consistency across all our content."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Rajesh Kumar<span class="verified-badge">Verified User</span></span>
-                        <span class="author-title">Director, Elite CAT Coaching</span>
+                        <span class="author-name">Institute Director, New Delhi</span>
+                        <span class="author-title"></span>
                     </div>
                 </div>
                 <div class="testimonial-card fade-in">
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"As a student, I love having access to varied mock exams. The difficulty levels help me prepare progressively. The explanations are detailed and actually help me understand concepts."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Priya Sharma<span class="verified-badge">Verified User</span></span>
-                        <span class="author-title">CAT Aspirant, IIT Delhi</span>
+                        <span class="author-name">CAT Aspirant, Mumbai</span>
+                        <span class="author-title"></span>
                     </div>
                 </div>
                 <div class="testimonial-card fade-in">
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"The white-label feature is incredible. We've branded TestMagicks with our institute colors and logo. Our students think it's our own platform. Game changer for retention."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Anjali Verma<span class="verified-badge">Verified User</span></span>
-                        <span class="author-title">Founder, CLAT Academy</span>
+                        <span class="author-name">Founder, CLAT Coaching Institute, Bangalore</span>
+                        <span class="author-title"></span>
                     </div>
                 </div>
             </div>
@@ -1603,8 +1815,7 @@
         <h2>Ready to Transform Your Test Prep?</h2>
         <p style="color: #9CA3AF; font-size: 18px; margin-bottom: 0;">Join 50+ institutes and 10,000+ students already using TestMagicks</p>
         <form class="cta-form" onsubmit="handleCTASubmit(event)">
-            <input type="email" class="cta-input" placeholder="Enter your email address" required>
-            <button type="submit" class="gradient-button">Get Started Free</button>
+            <button type="button" class="gradient-button" onclick="window.location.href='index.html'">Get Started Free</button>
         </form>
     </section>
 
@@ -1685,13 +1896,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ===== WHATSAPP WIDGET ===== -->
-    <a href="https://wa.me/911145678900?text=Hi!%20I'm%20interested%20in%20TestMagicks" target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.052 0-2.082.362-2.898 1.028l-.209.157-2.165-.567.578 2.11.167.266c-.727.906-1.117 2.057-1.117 3.282 0 3.053 2.485 5.537 5.537 5.537 1.483 0 2.876-.576 3.927-1.627 1.05-1.05 1.627-2.444 1.627-3.927 0-3.053-2.485-5.537-5.537-5.537m5.537-3.032c-1.438 0-2.837.356-4.107 1.031-1.268.676-2.416 1.647-3.247 2.854-.831 1.207-1.284 2.581-1.284 4.042 0 1.44.356 2.839 1.03 4.108.675 1.269 1.646 2.417 2.853 3.248 1.207.83 2.581 1.283 4.042 1.283 1.439 0 2.838-.355 4.107-1.03 1.268-.676 2.416-1.647 3.247-2.854.831-1.206 1.284-2.581 1.284-4.042 0-1.44-.355-2.839-1.03-4.108-.675-1.268-1.646-2.416-2.853-3.247-1.206-.831-2.581-1.284-4.042-1.284"/>
-        </svg>
-    </a>
 
     <!-- ===== TOAST NOTIFICATION ===== -->
     <div id="toast" class="toast"></div>
@@ -1811,6 +2015,28 @@
                 closeDemoModal();
             }
         });
+
+        // Cookie Consent
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieBanner').classList.add('hidden');
+        }
+        function declineCookies() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieBanner').classList.add('hidden');
+        }
+        (function() {
+            const consent = localStorage.getItem('cookieConsent');
+            if (consent) document.getElementById('cookieBanner').classList.add('hidden');
+        })();
     </script>
+
+    <div class="cookie-banner" id="cookieBanner">
+        <p>We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our <a href="privacy.html">Privacy Policy</a>.</p>
+        <div class="cookie-banner-buttons">
+            <button class="cookie-btn cookie-btn-decline" onclick="declineCookies()">Decline</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="acceptCookies()">Accept</button>
+        </div>
+    </div>
 </body>
 </html>
