@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CL Agent — Career Launcher Content Assistant</title>
+<title>TestMagicks Test Prep — TestMagicks Content Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
 :root {
-  --bg-primary: #0f1729;
-  --bg-secondary: #1a2340;
-  --bg-card: #1e2a4a;
-  --bg-input: #253050;
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E1B4B;
+  --bg-card: #252250;
+  --bg-input: #2D2A5E;
   --text-primary: #f0f2f8;
-  --text-secondary: #8b95b0;
-  --text-muted: #5a6580;
-  --cl-blue: #1A5EA8;
-  --cl-blue-light: #2a7ed8;
-  --cl-gold: #F5C842;
-  --cl-gold-dark: #d4a830;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --cl-blue: #7C3AED;
+  --cl-blue-light: #8B5CF6;
+  --cl-gold: #F59E0B;
+  --cl-gold-dark: #D97706;
   --red: #ef4444;
   --red-bg: rgba(239,68,68,0.12);
   --amber: #f59e0b;
@@ -33,13 +33,13 @@
   --radius-sm: 8px;
 }
 [data-theme="light"] {
-  --bg-primary: #f0f2f7;
+  --bg-primary: #F5F3FF;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
-  --bg-input: #eef1f6;
-  --text-primary: #1a1a2e;
-  --text-secondary: #5a6178;
-  --text-muted: #8b92a8;
+  --bg-input: #EDE9FE;
+  --text-primary: #1E1B4B;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
   --border: rgba(0,0,0,0.08);
   --shadow: 0 4px 24px rgba(0,0,0,0.08);
   --red-bg: rgba(239,68,68,0.08);
@@ -47,7 +47,7 @@
   --green-bg: rgba(34,197,94,0.08);
 }
 [data-theme="light"] #setup-screen {
-  background: linear-gradient(135deg, #f0f2f7 0%, #e2e6f0 100%);
+  background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
 }
 [data-theme="light"] .chat-msg.user .chat-bubble { color: #fff; }
 [data-theme="light"] select {
@@ -66,10 +66,10 @@ body {
 #login-screen {
   display: flex; align-items: center; justify-content: center;
   min-height: 100vh; padding: 20px;
-  background: linear-gradient(135deg, var(--bg-primary) 0%, #0c1220 100%);
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
 }
 [data-theme="light"] #login-screen {
-  background: linear-gradient(135deg, #f0f2f7 0%, #e2e6f0 100%);
+  background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
 }
 .login-card {
   background: var(--bg-secondary);
@@ -81,14 +81,13 @@ body {
   text-align: center;
 }
 .login-card .logo {
-  width: 72px; height: 72px;
-  background: var(--cl-blue);
-  border-radius: 18px;
+  width: 72px; height: 80px;
+  background: transparent;
+  border-radius: 0;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 24px; color: #fff;
   margin: 0 auto 24px;
-  box-shadow: 0 8px 32px rgba(26,94,168,0.3);
 }
+.login-card .logo svg { width: 72px; height: 80px; }
 .login-card h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
 .login-card p.subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
 .login-error {
@@ -104,7 +103,7 @@ body {
 #setup-screen {
   display: none; align-items: center; justify-content: center;
   min-height: 100vh; padding: 20px;
-  background: linear-gradient(135deg, var(--bg-primary) 0%, #0c1220 100%);
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
 }
 .setup-card {
   background: var(--bg-secondary);
@@ -116,14 +115,13 @@ body {
   text-align: center;
 }
 .setup-card .logo {
-  width: 72px; height: 72px;
-  background: var(--cl-blue);
-  border-radius: 18px;
+  width: 72px; height: 80px;
+  background: transparent;
+  border-radius: 0;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 24px; color: #fff;
   margin: 0 auto 24px;
-  box-shadow: 0 8px 32px rgba(26,94,168,0.3);
 }
+.setup-card .logo svg { width: 72px; height: 80px; }
 .setup-card h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
 .setup-card p.subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
 .form-group { text-align: left; margin-bottom: 20px; }
@@ -174,10 +172,10 @@ textarea { resize: vertical; min-height: 80px; }
 .topbar-left { display: flex; align-items: center; gap: 24px; }
 .app-logo { display: flex; align-items: center; gap: 10px; }
 .app-logo .logo-icon {
-  width: 34px; height: 34px; background: var(--cl-blue);
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; color: #fff;
+  width: 34px; height: 38px; background: transparent;
+  border-radius: 0; display: flex; align-items: center; justify-content: center;
 }
+.app-logo .logo-icon svg { width: 34px; height: 38px; }
 .app-logo .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
 .tab-buttons { display: flex; gap: 4px; }
 .tab-btn {
@@ -186,7 +184,7 @@ textarea { resize: vertical; min-height: 80px; }
   cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s;
 }
 .tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
-.tab-btn.active { color: var(--cl-gold); background: rgba(245,200,66,0.08); }
+.tab-btn.active { color: var(--cl-blue-light); background: rgba(139,92,246,0.12); }
 .topbar-right { display: flex; align-items: center; gap: 12px; }
 .status-badge {
   display: flex; align-items: center; gap: 6px;
@@ -274,7 +272,7 @@ textarea { resize: vertical; min-height: 80px; }
   border-radius: 20px; font-family: inherit; font-size: 12px;
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
-.quick-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(26,94,168,0.1); }
+.quick-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(139,92,246,0.12); }
 .chat-input-wrap {
   display: flex; gap: 10px; max-width: 720px; margin: 0 auto;
 }
@@ -485,7 +483,7 @@ textarea { resize: vertical; min-height: 80px; }
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
   display: flex; align-items: center; gap: 6px;
 }
-.file-upload-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(26,94,168,0.1); }
+.file-upload-btn:hover { color: var(--text-primary); border-color: var(--cl-blue); background: rgba(139,92,246,0.12); }
 .attached-files {
   display: flex; flex-wrap: wrap; gap: 6px; flex: 1;
 }
@@ -517,8 +515,8 @@ textarea { resize: vertical; min-height: 80px; }
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen">
   <div class="login-card">
-    <div class="logo">CL</div>
-    <h1>CL Agent</h1>
+    <div class="logo"><svg viewBox="0 0 80 80"><defs><linearGradient id="gP" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B82F6"/><stop offset="40%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#EC4899"/></linearGradient></defs><circle cx="40" cy="40" r="38" fill="#1E1B4B"/><circle cx="40" cy="40" r="36" fill="none" stroke="url(#gP)" stroke-width="2.5"/><path d="M40,4 A36,36 0 0,1 71.2,56" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/><path d="M40,76 A36,36 0 0,1 8.8,24" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/><rect x="18" y="26" width="20" height="4" rx="2" fill="#FFF"/><rect x="25" y="26" width="4" height="24" rx="2" fill="#FFF"/><path d="M42,26 L42,50 M42,26 L50,38 L58,26 M58,26 L58,50" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="14" r="2.5" fill="#F59E0B"/><circle cx="12" cy="62" r="2" fill="#F59E0B"/><circle cx="62" cy="66" r="2.2" fill="#EC4899"/></svg></div>
+    <h1>TestMagicks Test Prep</h1>
     <p class="subtitle">Sign in to your account</p>
     <div class="login-error" id="login-error">Invalid username or password.</div>
     <div class="form-group">
@@ -537,9 +535,9 @@ textarea { resize: vertical; min-height: 80px; }
 <!-- ===== SETUP SCREEN ===== -->
 <div id="setup-screen">
   <div class="setup-card">
-    <div class="logo">CL</div>
-    <h1>CL Agent</h1>
-    <p class="subtitle">Career Launcher Content Production Assistant</p>
+    <div class="logo"><svg viewBox="0 0 80 80"><defs><linearGradient id="gP" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B82F6"/><stop offset="40%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#EC4899"/></linearGradient></defs><circle cx="40" cy="40" r="38" fill="#1E1B4B"/><circle cx="40" cy="40" r="36" fill="none" stroke="url(#gP)" stroke-width="2.5"/><path d="M40,4 A36,36 0 0,1 71.2,56" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/><path d="M40,76 A36,36 0 0,1 8.8,24" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/><rect x="18" y="26" width="20" height="4" rx="2" fill="#FFF"/><rect x="25" y="26" width="4" height="24" rx="2" fill="#FFF"/><path d="M42,26 L42,50 M42,26 L50,38 L58,26 M58,26 L58,50" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="14" r="2.5" fill="#F59E0B"/><circle cx="12" cy="62" r="2" fill="#F59E0B"/><circle cx="62" cy="66" r="2.2" fill="#EC4899"/></svg></div>
+    <h1>TestMagicks Test Prep</h1>
+    <p class="subtitle">TestMagicks Content Production Assistant</p>
     <div class="form-group">
       <label>AI Provider</label>
       <select id="setup-provider" onchange="updateProviderHints()">
@@ -568,8 +566,8 @@ textarea { resize: vertical; min-height: 80px; }
   <div class="topbar">
     <div class="topbar-left">
       <div class="app-logo">
-        <div class="logo-icon">CL</div>
-        <span class="logo-text">CL Agent</span>
+        <div class="logo-icon"><svg viewBox="0 0 80 80"><defs><linearGradient id="gP2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B82F6"/><stop offset="40%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#EC4899"/></linearGradient></defs><circle cx="40" cy="40" r="38" fill="#1E1B4B"/><circle cx="40" cy="40" r="36" fill="none" stroke="url(#gP2)" stroke-width="3"/><rect x="18" y="26" width="20" height="4" rx="2" fill="#FFF"/><rect x="25" y="26" width="4" height="24" rx="2" fill="#FFF"/><path d="M42,26 L42,50 M42,26 L50,38 L58,26 M58,26 L58,50" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="logo-text">TestMagicks Test Prep</span>
       </div>
       <div class="tab-buttons">
         <button class="tab-btn active" data-tab="agent">Agent</button>
@@ -613,7 +611,7 @@ textarea { resize: vertical; min-height: 80px; }
           <div class="attached-files" id="attached-files"></div>
         </div>
         <div class="chat-input-wrap">
-          <input type="text" id="chat-input" placeholder="Ask CL Agent anything..." autocomplete="off">
+          <input type="text" id="chat-input" placeholder="Ask TestMagicks Test Prep anything..." autocomplete="off">
           <button class="btn btn-primary" id="send-btn" onclick="sendMessage()">Send</button>
         </div>
       </div>
@@ -1363,9 +1361,9 @@ function getSystemPrompt() {
   const dueSoon = data.filter(m => m.status === 'due-soon');
   const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-  return `You are CL Agent — the AI content production assistant for Career Launcher (CL Educate Ltd), New Delhi.
+  return `You are TestMagicks Test Prep — the AI content production assistant for TestMagicks.
 
-User: ${name} — Head of Content (VARC and Logical Reasoning) at Career Launcher.
+User: ${name} — Head of Content (VARC and Logical Reasoning) at TestMagicks.
 
 Team members: Savitri, Arijit, Tarang, and ${name}. Subject ownership varies across VARC, English, Logical Reasoning, Legal Reasoning, Quantitative, and GK.
 
@@ -1404,7 +1402,7 @@ function renderMarkdown(text) {
 function addChatMessage(role, content) {
   const container = document.getElementById('chat-container');
   const name = localStorage.getItem('cl_username') || 'U';
-  const initial = role === 'assistant' ? 'CL' : name.charAt(0).toUpperCase();
+  const initial = role === 'assistant' ? 'TM' : name.charAt(0).toUpperCase();
   const div = document.createElement('div');
   div.className = 'chat-msg ' + role;
   div.innerHTML = `
@@ -1494,7 +1492,7 @@ async function callLLM(messages, systemPrompt, maxTokens) {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + apiKey,
           'HTTP-Referer': window.location.href,
-          'X-Title': 'CL Agent'
+          'X-Title': 'TestMagicks Test Prep'
         },
         body: JSON.stringify({ model: cfg.model, max_tokens: tokens, messages: oaiMessages })
       });
@@ -1677,7 +1675,7 @@ async function buildAndDownloadDocx(content, meta) {
 
     const children = [
       new Paragraph({
-        children: [new TextRun({ text: `${exam} — ${mockNum}`, bold: true, size: 36, font: 'Arial', color: '1A5EA8' })],
+        children: [new TextRun({ text: `${exam} — ${mockNum}`, bold: true, size: 36, font: 'Arial', color: '7C3AED' })],
         spacing: { after: 100 },
       }),
       new Paragraph({
@@ -1708,7 +1706,7 @@ async function buildAndDownloadDocx(content, meta) {
         }));
       } else if (/^Answer:/.test(trimmed)) {
         children.push(new Paragraph({
-          children: [new TextRun({ text: trimmed, bold: true, size: 24, font: 'Arial', color: '1A5EA8' })],
+          children: [new TextRun({ text: trimmed, bold: true, size: 24, font: 'Arial', color: '7C3AED' })],
           spacing: { before: 120, after: 60 },
         }));
       } else if (/^Explanation:/.test(trimmed)) {
@@ -1775,7 +1773,7 @@ SLIDE 2: [Slide title]
 Each slide should have 4-6 bullet points. Be educational, concise, and exam-focused.`;
 
   const pptTokens = Math.min(Math.max(numSlides * 200, 2000), 8192);
-  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher. Pay very careful attention to the requested difficulty/complexity level.', pptTokens);
+  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at TestMagicks. Pay very careful attention to the requested difficulty/complexity level.', pptTokens);
 
   if (!content || content.startsWith('**Error')) {
     hideGenerating();
@@ -1807,18 +1805,18 @@ async function buildAndDownloadPptx(content, meta) {
     pptx.layout = 'LAYOUT_WIDE';
 
     const styles = {
-      'Clean White': { bg: 'FFFFFF', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFFFFF' },
-      'Dark Professional': { bg: '1a2340', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: 'f0f2f8', bodyBg: '1a2340' },
-      'Colourful Education': { bg: 'FFF8E7', titleBg: '1A5EA8', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFF8E7' },
+      'Clean White': { bg: 'FFFFFF', titleBg: '7C3AED', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFFFFF' },
+      'Dark Professional': { bg: '1E1B4B', titleBg: '7C3AED', titleColor: 'FFFFFF', textColor: 'f0f2f8', bodyBg: '1E1B4B' },
+      'Colourful Education': { bg: 'FFF8E7', titleBg: '7C3AED', titleColor: 'FFFFFF', textColor: '333333', bodyBg: 'FFF8E7' },
     };
     const s = styles[style] || styles['Clean White'];
 
     const titleSlide = pptx.addSlide();
     titleSlide.background = { color: s.titleBg };
     titleSlide.addShape(pptx.ShapeType.rect, { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fill: { color: 'F5C842' }, rectRadius: 0.15 });
-    titleSlide.addText('CL', { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fontSize: 32, bold: true, color: '000000', align: 'center', valign: 'middle' });
+    titleSlide.addText('TM', { x: 0.5, y: 0.5, w: 2.2, h: 0.9, fontSize: 32, bold: true, color: '000000', align: 'center', valign: 'middle' });
     titleSlide.addText(topic, { x: 0.8, y: 2.2, w: 11, h: 1.5, fontSize: 36, bold: true, color: 'FFFFFF', align: 'left' });
-    titleSlide.addText(`${exam} Exam Preparation | Career Launcher`, { x: 0.8, y: 3.8, w: 11, h: 0.8, fontSize: 18, color: 'AACCEE', align: 'left' });
+    titleSlide.addText(`${exam} Exam Preparation | TestMagicks`, { x: 0.8, y: 3.8, w: 11, h: 0.8, fontSize: 18, color: 'AACCEE', align: 'left' });
 
     const slideBlocks = content.split(/SLIDE\s+\d+:\s*/i).filter(b => b.trim());
     for (const block of slideBlocks) {
@@ -1836,13 +1834,13 @@ async function buildAndDownloadPptx(content, meta) {
         slide.addText(bullets.map(b => ({ text: b, options: { bullet: true, fontSize: 20, color: s.textColor, breakLine: true, lineSpacingMultiple: 1.5 } })),
           { x: 0.8, y: 1.6, w: 11, h: 5, valign: 'top' });
       }
-      slide.addText('CL', { x: 12, y: 6.8, w: 1, h: 0.5, fontSize: 14, bold: true, color: '1A5EA8', align: 'right' });
+      slide.addText('TM', { x: 12, y: 6.8, w: 1, h: 0.5, fontSize: 14, bold: true, color: '7C3AED', align: 'right' });
     }
 
     const tySlide = pptx.addSlide();
     tySlide.background = { color: s.titleBg };
     tySlide.addText('Thank You!', { x: 1, y: 2, w: 11, h: 2, fontSize: 44, bold: true, color: 'FFFFFF', align: 'center', valign: 'middle' });
-    tySlide.addText(`${topic} | ${exam} | Career Launcher`, { x: 1, y: 4.2, w: 11, h: 1, fontSize: 18, color: 'AACCEE', align: 'center' });
+    tySlide.addText(`${topic} | ${exam} | TestMagicks`, { x: 1, y: 4.2, w: 11, h: 1, fontSize: 18, color: 'AACCEE', align: 'center' });
 
     const filename = `${topic.replace(/\s+/g, '_')}_${exam}_CL.pptx`;
     await pptx.writeFile({ fileName: filename });
@@ -2068,7 +2066,7 @@ async function runQCReview(content, type, meta) {
 
   let qcPrompt;
   if (type === 'docx') {
-    qcPrompt = `You are the QC Manager / Coach Agent at Career Launcher. Your job is to review AI-generated exam content for quality and difficulty compliance.
+    qcPrompt = `You are the QC Manager / Coach Agent at TestMagicks. Your job is to review AI-generated exam content for quality and difficulty compliance.
 
 CONTENT TYPE: Mock Exam Questions (Word Document)
 EXAM: ${meta.exam || 'Unknown'}
@@ -2092,7 +2090,7 @@ Be concise but thorough. Focus on actionable feedback.
 CONTENT TO REVIEW:
 ${content}`;
   } else {
-    qcPrompt = `You are the QC Manager / Coach Agent at Career Launcher. Your job is to review AI-generated presentation content for quality and complexity compliance.
+    qcPrompt = `You are the QC Manager / Coach Agent at TestMagicks. Your job is to review AI-generated presentation content for quality and complexity compliance.
 
 CONTENT TYPE: PowerPoint Slides
 EXAM: ${meta.exam || 'Unknown'}
@@ -2135,7 +2133,7 @@ async function runChatQC(assistantReply) {
   // Only run QC on substantial responses (likely content generation)
   if (!assistantReply || assistantReply.length < 500) return;
 
-  const qcPrompt = `You are the QC Coach Agent at Career Launcher. Briefly review this AI assistant response for:
+  const qcPrompt = `You are the QC Coach Agent at TestMagicks. Briefly review this AI assistant response for:
 1. Factual accuracy for Indian competitive exams (CAT, CLAT, etc.)
 2. Completeness — does it fully address the request?
 3. Any errors or misleading information?

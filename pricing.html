@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - TestMagicks Test Prep</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0F172A;
+            --primary-darker: #1E1B4B;
+            --gradient-start: #3B82F6;
+            --gradient-mid: #8B5CF6;
+            --gradient-end: #EC4899;
+            --gold: #F59E0B;
+            --text-light: #E5E7EB;
+            --text-muted: #9CA3AF;
+            --light-bg: #F5F3FF;
+            --light-card: #FFFFFF;
+            --light-text: #1E1B4B;
+            --light-text-muted: #6B7280;
+        }
+
+        html {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --primary-dark: #F5F3FF;
+            --primary-darker: #F5F3FF;
+            --text-light: #1E1B4B;
+            --text-muted: #6B7280;
+        }
+
+        [data-theme="light"] body {
+            background: linear-gradient(135deg, #F5F3FF 0%, #F8F6FF 100%);
+            color: var(--light-text);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] nav a {
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] nav a:hover,
+        [data-theme="light"] nav a.active {
+            color: var(--gold);
+        }
+
+        [data-theme="light"] .pricing-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .pricing-card h3 {
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] .pricing-card .price {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .pricing-card ul li {
+            color: #4B5563;
+        }
+
+        [data-theme="light"] .pricing-card.featured {
+            border: 2px solid var(--gold);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        [data-theme="light"] .btn {
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] .btn-primary {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            color: white;
+        }
+
+        [data-theme="light"] .comparison-table th {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            color: white;
+        }
+
+        [data-theme="light"] .comparison-table td {
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] .comparison-table tr:nth-child(even) {
+            background: rgba(245, 243, 255, 0.5);
+        }
+
+        [data-theme="light"] .faq-item {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .faq-item.active .faq-question {
+            color: var(--gold);
+        }
+
+        [data-theme="light"] .faq-answer {
+            color: #4B5563;
+        }
+
+        [data-theme="light"] footer {
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] footer a {
+            color: #3B82F6;
+        }
+
+        [data-theme="light"] footer a:hover {
+            color: var(--gold);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 50%, var(--gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--gold);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--gold);
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1E1B4B;
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        .pricing-header {
+            text-align: center;
+            padding: 4rem 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .pricing-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 50%, var(--gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pricing-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Toggle Section */
+        .toggle-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 31px;
+        }
+
+        .toggle-label {
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .toggle-label.active {
+            color: var(--gold);
+        }
+
+        /* Pricing Cards */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .pricing-card {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--gold);
+            background: rgba(30, 27, 75, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        .pricing-card.featured::after {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold), #F97316);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .pricing-card .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-card .billing-period {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-card .savings {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card ul li {
+            padding: 0.75rem 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pricing-card ul li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 100%);
+            border-radius: 50%;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-card ul li.unavailable::before {
+            content: '✕';
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        .pricing-card ul li.unavailable {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Included Section */
+        .included-section {
+            background: rgba(30, 27, 75, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem 0;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .included-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .feature-item::before {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 100%);
+            border-radius: 50%;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feature-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            margin: 4rem 0;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .comparison-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(30, 27, 75, 0.4);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.2);
+            color: var(--text-light);
+        }
+
+        .comparison-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            color: var(--text-light);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .comparison-table .check {
+            color: var(--gradient-start);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .comparison-table .cross {
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 1.25rem;
+            opacity: 0.5;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin: 4rem 0;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        .faq-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .faq-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-light);
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-question {
+            color: var(--gold);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        /* Enterprise CTA */
+        .enterprise-cta {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 4rem 0;
+            animation: fadeInUp 0.8s ease 1s both;
+            backdrop-filter: blur(10px);
+        }
+
+        .enterprise-cta h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold), #F97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .enterprise-cta p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .enterprise-cta .btn {
+            width: auto;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            backdrop-filter: blur(10px);
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pricing-header h1 {
+                font-size: 2rem;
+            }
+
+            nav .nav-links {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .included-section,
+            .enterprise-cta {
+                padding: 2rem;
+            }
+
+            .pricing-card {
+                padding: 1.5rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" fill="#1E1B4B" stroke="#3B82F6" stroke-width="1.5"/>
+                    <text x="20" y="26" font-family="Plus Jakarta Sans" font-size="16" font-weight="700" text-anchor="middle" fill="url(#grad)">TM</text>
+                    <defs>
+                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                TestMagicks
+            </div>
+            <ul class="nav-links">
+                <li><a href="testmagicks-website.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html" class="active">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="pricing-header">
+        <h1>Simple, Transparent Pricing</h1>
+        <p>Choose the perfect plan for your test preparation journey. Upgrade anytime, cancel anytime.</p>
+
+        <!-- Toggle Section -->
+        <div class="toggle-section">
+            <span class="toggle-label">Monthly</span>
+            <div class="toggle-switch" id="pricingToggle"></div>
+            <span class="toggle-label" id="toggleLabel">Annual</span>
+        </div>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="container">
+        <div class="pricing-container">
+            <!-- Starter Plan -->
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <p class="subtitle">Perfect for individuals</p>
+                <div class="price" id="starterPrice">Free</div>
+                <p class="billing-period" id="starterBilling">Forever free</p>
+                <button class="btn btn-secondary">Get Started</button>
+                <ul>
+                    <li>1 user account</li>
+                    <li>10 mocks per month</li>
+                    <li>Basic & Medium difficulty</li>
+                    <li>Community support</li>
+                    <li class="unavailable">Basic scheduling</li>
+                    <li class="unavailable">QC Coach Agent</li>
+                </ul>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <h3>Pro</h3>
+                <p class="subtitle">For serious learners</p>
+                <div class="price" id="proPrice">₹2,499</div>
+                <p class="billing-period" id="proBilling">/month</p>
+                <div class="savings" id="proSavings" style="display: none;">Save ₹4,989/year</div>
+                <button class="btn btn-primary">Start Free Trial</button>
+                <ul>
+                    <li>5 user accounts</li>
+                    <li>Unlimited mocks</li>
+                    <li>All 4 difficulty levels</li>
+                    <li>QC Coach Agent</li>
+                    <li>Multi-LLM support</li>
+                    <li>Priority email support</li>
+                    <li>Full scheduling</li>
+                </ul>
+            </div>
+
+            <!-- Institute Plan -->
+            <div class="pricing-card">
+                <h3>Institute</h3>
+                <p class="subtitle">For coaching centers</p>
+                <div class="price" id="institutePrice">₹7,999</div>
+                <p class="billing-period" id="instituteBilling">/month</p>
+                <div class="savings" id="instituteSavings" style="display: none;">Save ₹15,989/year</div>
+                <button class="btn btn-secondary">Contact Sales</button>
+                <ul>
+                    <li>Unlimited users</li>
+                    <li>Everything in Pro</li>
+                    <li>White-label branding</li>
+                    <li>Custom exam templates</li>
+                    <li>API access</li>
+                    <li>Dedicated account manager</li>
+                    <li>Phone support 24/7</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Plans Include -->
+    <div class="included-section">
+        <div class="container">
+            <h2>All Plans Include</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <p><strong>SSL Encryption</strong> - Bank-level security for your data</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>99.9% Uptime</strong> - Access your mocks anytime, anywhere</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>Data Export</strong> - Download your progress and analysis reports</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>Performance Analytics</strong> - Detailed insights on your strengths & weaknesses</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>Mobile App</strong> - Practice on iOS and Android devices</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>Community Forum</strong> - Connect with fellow test takers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="comparison-section">
+        <div class="container">
+            <h2>Feature Comparison</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Starter</th>
+                            <th>Pro</th>
+                            <th>Institute</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User Accounts</strong></td>
+                            <td class="check">1</td>
+                            <td class="check">5</td>
+                            <td class="check">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monthly Mocks</strong></td>
+                            <td class="check">10</td>
+                            <td class="check">Unlimited</td>
+                            <td class="check">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Difficulty Levels</strong></td>
+                            <td class="check">2</td>
+                            <td class="check">4</td>
+                            <td class="check">4</td>
+                        </tr>
+                        <tr>
+                            <td><strong>QC Coach Agent</strong></td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-LLM Support</strong></td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email Support</strong></td>
+                            <td class="check">Community</td>
+                            <td class="check">Priority</td>
+                            <td class="check">24/7</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone Support</strong></td>
+                            <td class="cross">—</td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Full Scheduling</strong></td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>White-Label Branding</strong></td>
+                            <td class="cross">—</td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Exam Templates</strong></td>
+                            <td class="cross">—</td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Access</strong></td>
+                            <td class="cross">—</td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dedicated Account Manager</strong></td>
+                            <td class="cross">—</td>
+                            <td class="cross">—</td>
+                            <td class="check">✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I switch between monthly and annual billing?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! You can switch your billing cycle anytime from your account settings. If you upgrade from monthly to annual, we'll credit the unused portion of your monthly subscription toward the annual plan.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a free trial for paid plans?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! All Pro and Institute plans come with a 7-day free trial. No credit card required. You'll have full access to all features during the trial period. Cancel anytime if you're not satisfied.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept all major credit cards (Visa, MasterCard, American Express), debit cards, UPI, net banking, and digital wallets like Google Pay and PhonePe. All transactions are processed securely through our PCI-DSS compliant payment gateway.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I cancel my subscription anytime?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel your subscription anytime without any penalties or hidden charges. Your access will continue until the end of your current billing cycle. No questions asked!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer discounts for bulk licenses?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! For organizations looking to purchase multiple Institute plans or custom packages, we offer special volume discounts. Contact our sales team to discuss your specific needs and get a tailored quote.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enterprise CTA -->
+    <div class="container">
+        <div class="enterprise-cta">
+            <h2>Need Custom Pricing?</h2>
+            <p>Looking for a custom plan tailored to your institution's unique needs? We offer flexible enterprise solutions.</p>
+            <a href="contact.html" class="btn btn-primary">Contact Sales Team</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="testmagicks-website.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 TestMagicks Test Prep. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+
+        // Set initial theme
+        if (savedTheme === 'light') {
+            html.setAttribute('data-theme', 'light');
+            themeToggle.textContent = '☀️ Light';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙 Dark' : '☀️ Light';
+        });
+
+        // Pricing Toggle
+        const pricingToggle = document.getElementById('pricingToggle');
+        const toggleLabel = document.getElementById('toggleLabel');
+        let isAnnual = false;
+
+        const prices = {
+            starter: { monthly: 'Free', annual: 'Free' },
+            pro: { monthly: '₹2,499', annual: '₹24,999' },
+            institute: { monthly: '₹7,999', annual: '₹79,999' }
+        };
+
+        const billings = {
+            starter: { monthly: 'Forever free', annual: 'Forever free' },
+            pro: { monthly: '/month', annual: '/year' },
+            institute: { monthly: '/month', annual: '/year' }
+        };
+
+        pricingToggle.addEventListener('click', () => {
+            isAnnual = !isAnnual;
+            pricingToggle.classList.toggle('active');
+            toggleLabel.classList.toggle('active');
+
+            // Update prices
+            document.getElementById('starterPrice').textContent = prices.starter[isAnnual ? 'annual' : 'monthly'];
+            document.getElementById('proPrice').textContent = prices.pro[isAnnual ? 'annual' : 'monthly'];
+            document.getElementById('institutePrice').textContent = prices.institute[isAnnual ? 'annual' : 'monthly'];
+
+            // Update billing periods
+            document.getElementById('starterBilling').textContent = billings.starter[isAnnual ? 'annual' : 'monthly'];
+            document.getElementById('proBilling').textContent = billings.pro[isAnnual ? 'annual' : 'monthly'];
+            document.getElementById('instituteBilling').textContent = billings.institute[isAnnual ? 'annual' : 'monthly'];
+
+            // Show/hide savings badges
+            document.getElementById('proSavings').style.display = isAnnual ? 'inline-block' : 'none';
+            document.getElementById('instituteSavings').style.display = isAnnual ? 'inline-block' : 'none';
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove('active');
+                    }
+                });
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

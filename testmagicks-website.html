@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestMagicks Test Prep - AI-Powered Test Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
+            color: #E5E7EB;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 40%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-button {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .gradient-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(30, 27, 75, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-in.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #EC4899;
+        }
+
+        .nav-cta {
+            margin-left: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .nav-cta {
+                margin-left: 0;
+            }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 120px 0 80px;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            display: block;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #9CA3AF;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-mockup {
+            position: relative;
+            height: 400px;
+        }
+
+        .mockup-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.5);
+        }
+
+        .dot:nth-child(2) {
+            background: rgba(245, 158, 11, 0.5);
+        }
+
+        .dot:nth-child(3) {
+            background: rgba(236, 72, 153, 0.5);
+        }
+
+        .mockup-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .line {
+            height: 8px;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), transparent);
+            border-radius: 4px;
+        }
+
+        .line:nth-child(2) {
+            width: 80%;
+        }
+
+        .line:nth-child(3) {
+            width: 90%;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            .hero-mockup {
+                height: 300px;
+            }
+        }
+
+        /* ===== SOCIAL PROOF ===== */
+        .social-proof {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            padding: 40px 0;
+            margin: 60px 0;
+        }
+
+        .proof-content {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .proof-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #D1D5DB;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3B82F6 0%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .proof-content {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #9CA3AF;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            padding: 36px;
+            border-radius: 16px;
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(236, 72, 153, 0.4);
+            transform: translateY(-8px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #FFF;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #9CA3AF;
+            line-height: 1.7;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            padding: 80px 0;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 auto 24px;
+            color: white;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #FFF;
+        }
+
+        .step p {
+            font-size: 15px;
+            color: #9CA3AF;
+            line-height: 1.7;
+        }
+
+        .step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 30px;
+            font-size: 28px;
+            color: rgba(139, 92, 246, 0.3);
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .step::after {
+                display: none;
+            }
+        }
+
+        /* ===== PRICING SECTION ===== */
+        .pricing {
+            padding: 80px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            padding: 40px;
+            border-radius: 16px;
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: rgba(236, 72, 153, 0.5);
+            background: rgba(236, 72, 153, 0.08);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3B82F6 0%, #EC4899 100%);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-8px) scale(1.1);
+        }
+
+        .pricing-tier {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #FFF;
+        }
+
+        .pricing-price {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #3B82F6 0%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pricing-period {
+            font-size: 14px;
+            color: #9CA3AF;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features {
+            flex: 1;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            list-style: none;
+            padding: 10px 0;
+            padding-left: 28px;
+            position: relative;
+            font-size: 14px;
+            color: #D1D5DB;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #8B5CF6;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .pricing-button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: transparent;
+            color: #FFF;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+        }
+
+        .pricing-card.featured .pricing-button {
+            background: linear-gradient(135deg, #3B82F6 0%, #EC4899 100%);
+            border: none;
+        }
+
+        .pricing-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .pricing-card.featured .pricing-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            padding: 80px 0;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            padding: 32px;
+            border-radius: 16px;
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .stars {
+            color: #F59E0B;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            color: #D1D5DB;
+            margin-bottom: 24px;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: #FFF;
+            font-size: 16px;
+        }
+
+        .author-title {
+            font-size: 13px;
+            color: #9CA3AF;
+            margin-top: 4px;
+        }
+
+        /* ===== FAQ SECTION ===== */
+        .faq {
+            padding: 80px 0;
+        }
+
+        .faq-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            overflow: hidden;
+            background: rgba(30, 27, 75, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #FFF;
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .faq-answer-text {
+            color: #9CA3AF;
+            line-height: 1.8;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .cta-form {
+            max-width: 500px;
+            margin: 40px auto 0;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 20px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .cta-input::placeholder {
+            color: #6B7280;
+        }
+
+        .cta-input:focus {
+            outline: none;
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #FFF;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: #9CA3AF;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #EC4899;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #D1D5DB;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .social-icon:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.6);
+            color: #EC4899;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #3B82F6 0%, #EC4899 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #8B5CF6 0%, #3B82F6 100%);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            .cta-section h2 {
+                font-size: 32px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card:hover {
+                transform: translateY(-8px);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-8px);
+            }
+
+            .cta-form {
+                flex-direction: column;
+            }
+
+            .cta-input {
+                width: 100%;
+            }
+        }
+
+        /* ===== THEME TOGGLE BUTTON ===== */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #E5E7EB;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 4px 8px;
+            margin-right: 8px;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: rotate(20deg);
+        }
+
+        /* ===== LIGHT THEME OVERRIDES ===== */
+        html[data-theme="light"] body {
+            background: linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 50%, #F5F3FF 100%);
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .theme-toggle-btn {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] nav {
+            background: rgba(245, 243, 255, 0.95);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        html[data-theme="light"] .nav-content a,
+        html[data-theme="light"] .nav-links a {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .nav-links a:hover {
+            color: #7C3AED;
+        }
+
+        html[data-theme="light"] .hero p,
+        html[data-theme="light"] .section-subtitle {
+            color: #6B7280;
+        }
+
+        html[data-theme="light"] .hero h1 span:first-child {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        html[data-theme="light"] .stat-number,
+        html[data-theme="light"] .section-title,
+        html[data-theme="light"] h2,
+        html[data-theme="light"] h3 {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .stat-label,
+        html[data-theme="light"] .feature-desc,
+        html[data-theme="light"] .step-desc,
+        html[data-theme="light"] .faq-answer,
+        html[data-theme="light"] .pricing-feature,
+        html[data-theme="light"] .testimonial-text {
+            color: #6B7280;
+        }
+
+        html[data-theme="light"] .feature-card,
+        html[data-theme="light"] .step-card,
+        html[data-theme="light"] .testimonial-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        html[data-theme="light"] .pricing-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        html[data-theme="light"] .pricing-card.featured {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #8B5CF6;
+        }
+
+        html[data-theme="light"] .pricing-price {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .faq-item {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        html[data-theme="light"] .faq-question {
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .cta-section {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        html[data-theme="light"] .cta-input {
+            background: rgba(245, 243, 255, 0.9);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #1E1B4B;
+        }
+
+        html[data-theme="light"] .cta-input::placeholder {
+            color: #9CA3AF;
+        }
+
+        html[data-theme="light"] footer {
+            background: #1E1B4B;
+            color: #E5E7EB;
+        }
+
+        html[data-theme="light"] footer h4 {
+            color: #FFFFFF;
+        }
+
+        html[data-theme="light"] footer a {
+            color: #E5E7EB;
+        }
+
+        html[data-theme="light"] .hero-visual .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo-section">
+                <svg class="logo-svg" viewBox="0 0 80 80" width="48" height="48">
+                    <defs>
+                        <linearGradient id="gP" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3B82F6"/>
+                            <stop offset="40%" stop-color="#8B5CF6"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="40" cy="40" r="38" fill="#1E1B4B"/>
+                    <circle cx="40" cy="40" r="36" fill="none" stroke="url(#gP)" stroke-width="2.5"/>
+                    <path d="M40,4 A36,36 0 0,1 71.2,56" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <path d="M40,76 A36,36 0 0,1 8.8,24" fill="none" stroke="url(#gP)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <rect x="18" y="26" width="20" height="4" rx="2" fill="#FFF"/>
+                    <rect x="25" y="26" width="4" height="24" rx="2" fill="#FFF"/>
+                    <path d="M42,26 L42,50 M42,26 L50,38 L58,26 M58,26 L58,50" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="66" cy="14" r="2.5" fill="#F59E0B"/>
+                    <circle cx="12" cy="62" r="2" fill="#F59E0B"/>
+                    <circle cx="62" cy="66" r="2.2" fill="#EC4899"/>
+                </svg>
+                TestMagicks
+            </a>
+            <ul class="nav-links">
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle-btn" id="themeToggle" title="Toggle theme">&#9790;</button>
+            <button class="gradient-button nav-cta" onclick="document.querySelector('.cta-input').focus()">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="home" class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>
+                        <span>AI-Powered Test Prep</span>
+                        <span class="gradient-text">That Actually Works</span>
+                    </h1>
+                    <p>Generate complete mock exams, branded presentations, and quality-reviewed content in seconds. NEXT-GEN TEST INTELLIGENCE for CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET and more.</p>
+                    <div class="hero-buttons">
+                        <button class="gradient-button" onclick="document.querySelector('.cta-input').focus()">Start Free Trial</button>
+                        <button class="gradient-button" style="background: transparent; border: 1px solid rgba(139, 92, 246, 0.5);">Watch Demo</button>
+                    </div>
+                </div>
+                <div class="hero-mockup fade-in">
+                    <div class="mockup-card">
+                        <div class="mockup-header">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="mockup-lines">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div style="text-align: center; color: rgba(139, 92, 246, 0.5); font-size: 14px;">AI Mock Generator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SOCIAL PROOF ===== -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="proof-content">
+                <div class="proof-text">Trusted by 50+ coaching institutes worldwide</div>
+                <div class="stats-grid">
+                    <div class="stat fade-in">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Mocks Generated</div>
+                    </div>
+                    <div class="stat fade-in">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Exams Supported</div>
+                    </div>
+                    <div class="stat fade-in">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Difficulty Levels</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section id="features" class="features container">
+        <div class="section-header fade-in">
+            <h2>Powerful Features for Modern Test Prep</h2>
+            <p>Everything you need to create, manage, and deliver high-quality test content at scale</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">📄</div>
+                <h3>AI Mock Generation</h3>
+                <p>Generate complete mock exams in DOCX format with one click. Full control over difficulty, exam type, and question count.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">🎯</div>
+                <h3>Slide Deck Creation</h3>
+                <p>Branded PowerPoint presentations ready for YouTube, classroom delivery, or online coaching sessions.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">✅</div>
+                <h3>QC Coach Agent</h3>
+                <p>Automated quality review of every generated output. Ensures difficulty compliance and content accuracy before delivery.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">📊</div>
+                <h3>4 Difficulty Levels</h3>
+                <p>Simple, Medium, High, and Extremely Complex. Tailor content to every student skill level and preparation stage.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">🧠</div>
+                <h3>Multi-LLM Support</h3>
+                <p>Works with Claude, Gemini, Groq, and OpenRouter. Use your preferred AI provider or switch between them.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">📅</div>
+                <h3>Smart Scheduling</h3>
+                <p>Track mock production pipeline with team assignments. Monitor progress and manage batch generation workflows.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>How It Works</h2>
+                <p>Three simple steps to generate professional test content</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Choose Exam & Difficulty</h3>
+                    <p>Select from 25+ supported exams and pick your desired difficulty level—Simple, Medium, High, or Extremely Complex.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>AI Generates Content</h3>
+                    <p>Our AI engine creates complete, unique mock exams with relevant questions, answer keys, and detailed explanations in seconds.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>QC Agent Reviews</h3>
+                    <p>Our quality coach automatically validates every output for accuracy, difficulty compliance, and content quality. Then download and use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING SECTION ===== -->
+    <section id="pricing" class="pricing container">
+        <div class="section-header fade-in">
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Choose the plan that fits your needs. Scale as you grow.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <div class="pricing-tier">Starter</div>
+                <div class="pricing-price">Free</div>
+                <div class="pricing-period">Forever</div>
+                <ul class="pricing-features">
+                    <li>1 user seat</li>
+                    <li>10 mocks/month</li>
+                    <li>Basic difficulty levels</li>
+                    <li>Standard support</li>
+                    <li>DOCX & PPTX export</li>
+                </ul>
+                <button class="pricing-button">Get Started</button>
+            </div>
+            <div class="pricing-card featured fade-in">
+                <div class="pricing-tier">Pro</div>
+                <div class="pricing-price">&#8377;2,499</div>
+                <div class="pricing-period">/month, billed monthly</div>
+                <ul class="pricing-features">
+                    <li>5 user seats</li>
+                    <li>Unlimited mocks</li>
+                    <li>All 4 difficulty levels</li>
+                    <li>QC Coach Agent</li>
+                    <li>Priority email support</li>
+                    <li>Advanced analytics</li>
+                </ul>
+                <button class="pricing-button">Start Free Trial</button>
+            </div>
+            <div class="pricing-card fade-in">
+                <div class="pricing-tier">Institute</div>
+                <div class="pricing-price">&#8377;7,999</div>
+                <div class="pricing-period">/month, billed monthly</div>
+                <ul class="pricing-features">
+                    <li>Unlimited users</li>
+                    <li>Unlimited mocks</li>
+                    <li>White-label branding</li>
+                    <li>Custom exam library</li>
+                    <li>API access</li>
+                    <li>Dedicated support</li>
+                </ul>
+                <button class="pricing-button">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Loved by Institutes & Students</h2>
+                <p>See what education leaders are saying about TestMagicks</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-text">"TestMagicks has transformed how we create mock exams. What used to take us 20 hours now takes 20 minutes. The QC agent ensures consistency across all our content."</div>
+                    <div class="testimonial-author">
+                        <span class="author-name">Rajesh Kumar</span>
+                        <span class="author-title">Director, Elite CAT Coaching</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-text">"As a student, I love having access to varied mock exams. The difficulty levels help me prepare progressively. The explanations are detailed and actually help me understand concepts."</div>
+                    <div class="testimonial-author">
+                        <span class="author-name">Priya Sharma</span>
+                        <span class="author-title">CAT Aspirant, IIT Delhi</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-text">"The white-label feature is incredible. We've branded TestMagicks with our institute colors and logo. Our students think it's our own platform. Game changer for retention."</div>
+                    <div class="testimonial-author">
+                        <span class="author-name">Anjali Verma</span>
+                        <span class="author-title">Founder, CLAT Academy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ SECTION ===== -->
+    <section id="faq" class="faq container">
+        <div class="section-header fade-in">
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know about TestMagicks</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item fade-in active">
+                <div class="faq-question">
+                    <span>What exams are supported?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">We support 25+ Indian competitive exams including CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET, JEE, NEET, UPSC, and many more. We regularly add new exams based on user requests.</div>
+                </div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question">
+                    <span>Can I use TestMagicks with my LLM provider?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">Yes! TestMagicks works with Claude, Gemini, Groq, and any provider through OpenRouter. You can use your own API keys or let us manage the integration. Switch between providers anytime.</div>
+                </div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question">
+                    <span>How does the QC Coach Agent work?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">Every mock generated is automatically reviewed by our QC Agent. It checks for difficulty compliance, question quality, answer accuracy, and formatting. If issues are found, it regenerates that section. You get only the best content.</div>
+                </div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question">
+                    <span>Is white-label available on lower tiers?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">White-label branding is included in the Institute plan (&#8377;7,999/month). For lower tiers, you can request a custom quote if you'd like this feature. Contact our sales team to discuss options.</div>
+                </div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question">
+                    <span>What's included in API access?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">API access (Institute plan only) lets you integrate TestMagicks directly into your own platform. You can automate mock generation, manage users, and sync data. Full documentation and 24/7 developer support included.</div>
+                </div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question">
+                    <span>Do you offer discounts for annual plans?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-text">Yes! Annual plans come with 2 months free. For example, Pro plan is &#8377;24,999/year instead of &#8377;29,988. Contact sales@testmagicks.io for custom enterprise pricing and volume discounts.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta-section container fade-in">
+        <h2>Ready to Transform Your Test Prep?</h2>
+        <p style="color: #9CA3AF; font-size: 18px; margin-bottom: 0;">Join 50+ institutes and 10,000+ students already using TestMagicks</p>
+        <form class="cta-form" onsubmit="event.preventDefault(); alert('Thanks for your interest! Check your email soon.');">
+            <input type="email" class="cta-input" placeholder="Enter your email address" required>
+            <button type="submit" class="gradient-button">Get Started Free</button>
+        </form>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <svg class="logo-svg" viewBox="0 0 80 80" width="40" height="40">
+                            <defs>
+                                <linearGradient id="gP2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#3B82F6"/>
+                                    <stop offset="40%" stop-color="#8B5CF6"/>
+                                    <stop offset="100%" stop-color="#EC4899"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="40" cy="40" r="38" fill="#1E1B4B"/>
+                            <circle cx="40" cy="40" r="36" fill="none" stroke="url(#gP2)" stroke-width="2.5"/>
+                            <path d="M40,4 A36,36 0 0,1 71.2,56" fill="none" stroke="url(#gP2)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                            <path d="M40,76 A36,36 0 0,1 8.8,24" fill="none" stroke="url(#gP2)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                            <rect x="18" y="26" width="20" height="4" rx="2" fill="#FFF"/>
+                            <rect x="25" y="26" width="4" height="24" rx="2" fill="#FFF"/>
+                            <path d="M42,26 L42,50 M42,26 L50,38 L58,26 M58,26 L58,50" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="66" cy="14" r="2.5" fill="#F59E0B"/>
+                            <circle cx="12" cy="62" r="2" fill="#F59E0B"/>
+                            <circle cx="62" cy="66" r="2.2" fill="#EC4899"/>
+                        </svg>
+                        <span style="font-size: 18px; font-weight: 700; color: #FFF;">TestMagicks</span>
+                    </div>
+                    <p style="color: #9CA3AF; font-size: 14px; line-height: 1.7;">Next-gen AI-powered test intelligence for Indian competitive exams. Built for institutes and students.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">API Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                    <div class="footer-social">
+                        <div class="social-icon">f</div>
+                        <div class="social-icon">𝕏</div>
+                        <div class="social-icon">in</div>
+                        <div class="social-icon">▶</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024-2026 TestMagicks. All rights reserved. NEXT-GEN TEST INTELLIGENCE.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== INTERSECTION OBSERVER FOR ANIMATIONS ===== -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                document.querySelectorAll('.faq-item').forEach(other => {
+                    if (other !== item) other.classList.remove('active');
+                });
+                item.classList.toggle('active');
+            });
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlEl = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlEl.setAttribute('data-theme', savedTheme);
+        function updateThemeIcon(theme) {
+            themeToggle.textContent = theme === 'dark' ? '\u2600\uFE0F' : '\u263E';
+        }
+        updateThemeIcon(savedTheme);
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#home') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
