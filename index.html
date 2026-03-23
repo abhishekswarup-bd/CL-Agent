@@ -449,6 +449,30 @@ textarea { resize: vertical; min-height: 80px; }
 }
 .content-editor .editor-actions .btn { min-width: 120px; }
 
+/* QC Feedback panel */
+.qc-feedback {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 14px;
+  max-height: 180px; overflow-y: auto;
+}
+.qc-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  font-size: 14px;
+}
+.qc-icon { font-size: 18px; }
+.qc-score {
+  margin-left: auto; padding: 2px 10px;
+  border-radius: 12px; font-size: 12px; font-weight: 700;
+}
+.qc-score.pass { background: var(--green-bg); color: var(--green); }
+.qc-score.warn { background: var(--amber-bg); color: var(--amber); }
+.qc-score.fail { background: var(--red-bg); color: var(--red); }
+.qc-body {
+  font-size: 13px; line-height: 1.6; color: var(--text-secondary);
+}
+.qc-body ul { margin: 4px 0 4px 18px; }
+.qc-body li { margin-bottom: 2px; }
+
 /* ========== FILE UPLOAD AREA (Agent tab) ========== */
 .file-upload-wrap {
   display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
@@ -665,6 +689,15 @@ textarea { resize: vertical; min-height: 80px; }
               <input type="number" id="doc-numq" value="25" min="1" max="100">
             </div>
             <div class="form-group">
+              <label>Difficulty Level</label>
+              <select id="doc-difficulty">
+                <option value="simple">Simple — Foundational concepts, direct questions</option>
+                <option value="medium" selected>Medium — Standard exam-level difficulty</option>
+                <option value="high">High — Advanced, multi-step reasoning required</option>
+                <option value="extreme">Extremely Complex — Hardest possible, tricky traps</option>
+              </select>
+            </div>
+            <div class="form-group">
               <label>Custom Instructions (optional)</label>
               <textarea id="doc-instructions" placeholder="e.g. Focus on parajumbles and RC passages..."></textarea>
             </div>
@@ -689,6 +722,15 @@ textarea { resize: vertical; min-height: 80px; }
             <div class="form-group">
               <label>Number of Slides</label>
               <input type="number" id="ppt-slides" value="10" min="3" max="30">
+            </div>
+            <div class="form-group">
+              <label>Difficulty Level</label>
+              <select id="ppt-difficulty">
+                <option value="simple">Simple — Introductory level</option>
+                <option value="medium" selected>Medium — Standard exam prep</option>
+                <option value="high">High — Advanced concepts</option>
+                <option value="extreme">Extremely Complex — Expert level</option>
+              </select>
             </div>
             <div class="form-group">
               <label>Slide Style</label>
@@ -779,6 +821,14 @@ textarea { resize: vertical; min-height: 80px; }
   <div class="content-editor">
     <h3 id="editor-title">Review & Edit Content</h3>
     <p class="editor-subtitle" id="editor-subtitle">Edit the AI-generated content below, then download or regenerate.</p>
+    <div class="qc-feedback" id="qc-feedback" style="display:none;">
+      <div class="qc-header">
+        <span class="qc-icon">&#9989;</span>
+        <strong>QC Agent Review</strong>
+        <span class="qc-score" id="qc-score"></span>
+      </div>
+      <div class="qc-body" id="qc-body"></div>
+    </div>
     <textarea id="editor-content"></textarea>
     <div class="editor-actions">
       <button class="btn btn-secondary" onclick="closeEditor()">Cancel</button>
@@ -1513,6 +1563,13 @@ async function sendMessage(preset) {
   if (reply) {
     addChatMessage('assistant', reply);
     conversationHistory.push({ role: 'assistant', content: reply });
+
+    // Auto-run QC Coach on substantial content replies (non-blocking)
+    if (reply.length >= 500) {
+      setStatus(true);
+      document.getElementById('status-text').textContent = 'QC reviewing...';
+      await runChatQC(reply);
+    }
   }
   setStatus(false);
 }
@@ -1527,18 +1584,52 @@ document.getElementById('chat-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 
+// ===== DIFFICULTY LEVEL DESCRIPTIONS =====
+const DIFFICULTY = {
+  simple: {
+    label: 'Simple',
+    docPrompt: 'Create SIMPLE/EASY questions. Use straightforward, direct questions testing basic concepts. No tricks, no multi-step reasoning. Suitable for beginners or warm-up practice.',
+    pptPrompt: 'Content should be introductory and foundational. Use simple explanations, basic examples, and clear definitions.',
+    qcCriteria: 'Questions should be direct and test single concepts. No ambiguity, no multi-step logic. Vocabulary and concepts should be foundational.',
+  },
+  medium: {
+    label: 'Medium',
+    docPrompt: 'Create MEDIUM difficulty questions at standard competitive exam level. Include a mix of conceptual and application-based questions. Some questions should require 2-step reasoning.',
+    pptPrompt: 'Content should be at standard exam preparation level. Include strategies, patterns, and moderate complexity examples.',
+    qcCriteria: 'Questions should be at standard exam difficulty. Mix of direct and application-based. Some should require 2-step reasoning but nothing too tricky.',
+  },
+  high: {
+    label: 'High',
+    docPrompt: 'Create HIGH DIFFICULTY questions that require advanced reasoning, multi-step problem solving, deep conceptual understanding, and careful analysis. Include questions with subtle distinctions between options.',
+    pptPrompt: 'Content should cover advanced concepts, nuanced strategies, and complex problem-solving techniques. Include challenging examples.',
+    qcCriteria: 'Questions must require multi-step reasoning or deep conceptual knowledge. Options should have subtle differences. No easy giveaways.',
+  },
+  extreme: {
+    label: 'Extremely Complex',
+    docPrompt: 'Create EXTREMELY COMPLEX and CHALLENGING questions — the HARDEST possible level. Include trap options, multi-layered reasoning, unusual applications, cross-topic integration, and questions where the obvious answer is wrong. These should challenge even top percentile students.',
+    pptPrompt: 'Content should cover the most advanced and complex aspects. Include expert-level strategies, edge cases, common mistakes at advanced levels, and extremely challenging examples.',
+    qcCriteria: 'Questions must be at the hardest possible level. Must include trap options, multi-layered reasoning, cross-topic integration. Even strong students should find these challenging. If any question is too easy for this level, flag it.',
+  },
+};
+
 // ===== CREATE — DOCX =====
 async function generateDocx() {
   const exam = document.getElementById('doc-exam').value;
   const section = document.getElementById('doc-section').value;
   const mockNum = document.getElementById('doc-mocknum').value.trim() || 'Mock 1';
   const numQ = parseInt(document.getElementById('doc-numq').value) || 25;
+  const difficulty = document.getElementById('doc-difficulty').value;
   const instructions = document.getElementById('doc-instructions').value.trim();
 
-  showGenerating('Generating ' + numQ + ' questions with AI...');
+  showGenerating('Generating ' + numQ + ' ' + DIFFICULTY[difficulty].label + ' questions with AI...');
 
+  const diffInfo = DIFFICULTY[difficulty];
   const prompt = `Generate a mock exam section for ${exam} — ${section} — ${mockNum}.
 Create exactly ${numQ} multiple-choice questions appropriate for ${exam} ${section}.
+
+DIFFICULTY LEVEL: ${diffInfo.label.toUpperCase()}
+${diffInfo.docPrompt}
+
 ${instructions ? 'Additional instructions: ' + instructions : ''}
 
 Format your response EXACTLY as follows for each question:
@@ -1550,10 +1641,10 @@ Q1. [question text]
 Answer: [correct letter]
 Explanation: [brief explanation]
 
-Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
+Generate all ${numQ} questions.`;
 
   const docTokens = Math.min(Math.max(numQ * 200, 2000), 8192);
-  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert exam content creator for Indian competitive exams. Generate high-quality, exam-appropriate questions.', docTokens);
+  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert exam content creator for Indian competitive exams. Generate high-quality, exam-appropriate questions. Pay very careful attention to the requested difficulty level.', docTokens);
 
   if (!content || content.startsWith('**Error')) {
     hideGenerating();
@@ -1561,18 +1652,20 @@ Generate all ${numQ} questions. Be exam-appropriate in difficulty and style.`;
     return;
   }
 
+  // Auto-run QC Agent review
+  showGenerating('QC Agent is reviewing content quality and difficulty...');
+  const qcResult = await runQCReview(content, 'docx', { exam, section, difficulty, numQ });
   hideGenerating();
 
-  // Show editor for review before downloading
+  // Show editor with QC feedback
   editorState = {
     type: 'docx',
     rawContent: content,
-    meta: { exam, section, mockNum, numQ, instructions },
+    meta: { exam, section, mockNum, numQ, instructions, difficulty },
     fileIndex: null,
   };
-  openEditor('Review & Edit — Word Document',
-    `Review and edit the AI-generated content below. Click Download when you're happy, or Regenerate to get fresh content.`,
-    content);
+  openEditorWithQC('Review & Edit — Word Document (' + diffInfo.label + ')',
+    content, qcResult);
 }
 
 // Build DOCX from raw text content and download
@@ -1654,14 +1747,19 @@ async function generatePptx() {
   const topic = document.getElementById('ppt-topic').value.trim();
   const exam = document.getElementById('ppt-exam').value;
   const numSlides = parseInt(document.getElementById('ppt-slides').value) || 10;
+  const difficulty = document.getElementById('ppt-difficulty').value;
   const style = document.getElementById('ppt-style').value;
 
   if (!topic) { alert('Please enter a topic.'); return; }
 
-  showGenerating('Generating slide content with AI...');
+  const diffInfo = DIFFICULTY[difficulty];
+  showGenerating('Generating ' + diffInfo.label + ' slide content with AI...');
 
   const prompt = `Create a presentation on "${topic}" for ${exam} exam preparation.
 Generate exactly ${numSlides - 2} content slides (I will add a title slide and a thank-you slide separately).
+
+DIFFICULTY/COMPLEXITY LEVEL: ${diffInfo.label.toUpperCase()}
+${diffInfo.pptPrompt}
 
 Format your response EXACTLY as follows for each slide:
 SLIDE 1: [Slide title]
@@ -1677,7 +1775,7 @@ SLIDE 2: [Slide title]
 Each slide should have 4-6 bullet points. Be educational, concise, and exam-focused.`;
 
   const pptTokens = Math.min(Math.max(numSlides * 200, 2000), 8192);
-  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher.', pptTokens);
+  const content = await callLLM([{ role: 'user', content: prompt }], 'You are an expert educator creating presentation content for Indian competitive exam preparation at Career Launcher. Pay very careful attention to the requested difficulty/complexity level.', pptTokens);
 
   if (!content || content.startsWith('**Error')) {
     hideGenerating();
@@ -1685,18 +1783,20 @@ Each slide should have 4-6 bullet points. Be educational, concise, and exam-focu
     return;
   }
 
+  // Auto-run QC Agent review
+  showGenerating('QC Agent is reviewing content quality and complexity...');
+  const qcResult = await runQCReview(content, 'pptx', { exam, topic, difficulty, numSlides });
   hideGenerating();
 
-  // Show editor for review before downloading
+  // Show editor with QC feedback
   editorState = {
     type: 'pptx',
     rawContent: content,
-    meta: { topic, exam, numSlides, style },
+    meta: { topic, exam, numSlides, style, difficulty },
     fileIndex: null,
   };
-  openEditor('Review & Edit — PowerPoint',
-    `Review and edit the slide content below. Click Download when you're happy, or Regenerate to get fresh content.`,
-    content);
+  openEditorWithQC('Review & Edit — PowerPoint (' + diffInfo.label + ')',
+    content, qcResult);
 }
 
 // Build PPTX from raw text content and download
@@ -1820,8 +1920,45 @@ function openEditor(title, subtitle, content) {
   document.getElementById('editor-title').textContent = title;
   document.getElementById('editor-subtitle').textContent = subtitle;
   document.getElementById('editor-content').value = content;
-  // Show/hide regenerate button based on context
+  document.getElementById('qc-feedback').style.display = 'none';
   document.getElementById('editor-regen-btn').style.display = editorState.fileIndex !== null ? 'none' : 'inline-flex';
+  document.getElementById('editor-overlay').classList.add('active');
+}
+
+function openEditorWithQC(title, content, qcResult) {
+  document.getElementById('editor-title').textContent = title;
+  document.getElementById('editor-subtitle').textContent = 'QC Agent has reviewed the content. Edit below, then download or regenerate.';
+  document.getElementById('editor-content').value = content;
+  document.getElementById('editor-regen-btn').style.display = editorState.fileIndex !== null ? 'none' : 'inline-flex';
+
+  // Show QC feedback
+  const qcPanel = document.getElementById('qc-feedback');
+  const qcScore = document.getElementById('qc-score');
+  const qcBody = document.getElementById('qc-body');
+
+  if (qcResult && !qcResult.startsWith('**Error')) {
+    qcPanel.style.display = 'block';
+    // Try to extract a score/verdict from the QC result
+    const scoreMatch = qcResult.match(/(?:score|rating|verdict|overall)[:\s]*(\d+(?:\/10)?|pass|fail|good|excellent|needs work|warning)/i);
+    const score = scoreMatch ? scoreMatch[1].toLowerCase() : null;
+    if (score && (score.includes('pass') || score.includes('good') || score.includes('excellent') || parseInt(score) >= 7)) {
+      qcScore.textContent = 'PASS';
+      qcScore.className = 'qc-score pass';
+      qcPanel.querySelector('.qc-icon').textContent = '\u2705';
+    } else if (score && (score.includes('fail') || parseInt(score) <= 4)) {
+      qcScore.textContent = 'NEEDS WORK';
+      qcScore.className = 'qc-score fail';
+      qcPanel.querySelector('.qc-icon').textContent = '\u274C';
+    } else {
+      qcScore.textContent = 'REVIEWED';
+      qcScore.className = 'qc-score warn';
+      qcPanel.querySelector('.qc-icon').textContent = '\u26A0\uFE0F';
+    }
+    qcBody.innerHTML = renderMarkdown(qcResult);
+  } else {
+    qcPanel.style.display = 'none';
+  }
+
   document.getElementById('editor-overlay').classList.add('active');
 }
 
@@ -1921,6 +2058,107 @@ function saveAttachedFilesToFilesList() {
     renderFiles();
     agentAttachedFiles = [];
     renderAttachedFiles();
+  }
+}
+
+// ===== QC AGENT (COACH/MANAGER) =====
+async function runQCReview(content, type, meta) {
+  const difficulty = meta.difficulty || 'medium';
+  const diffInfo = DIFFICULTY[difficulty] || DIFFICULTY.medium;
+
+  let qcPrompt;
+  if (type === 'docx') {
+    qcPrompt = `You are the QC Manager / Coach Agent at Career Launcher. Your job is to review AI-generated exam content for quality and difficulty compliance.
+
+CONTENT TYPE: Mock Exam Questions (Word Document)
+EXAM: ${meta.exam || 'Unknown'}
+SECTION: ${meta.section || 'Unknown'}
+REQUESTED DIFFICULTY: ${diffInfo.label.toUpperCase()}
+NUMBER OF QUESTIONS EXPECTED: ${meta.numQ || '?'}
+
+DIFFICULTY CRITERIA FOR ${diffInfo.label.toUpperCase()}:
+${diffInfo.qcCriteria}
+
+Review the following content and provide:
+1. **Overall Score**: Rate 1-10 (1=poor, 10=excellent)
+2. **Question Count Check**: Are exactly ${meta.numQ || '?'} questions present?
+3. **Difficulty Compliance**: Does the content match the "${diffInfo.label}" difficulty level? Flag any questions that are too easy or too hard for the requested level.
+4. **Quality Issues**: Check for - factual errors, ambiguous options, missing explanations, unclear question stems, format issues.
+5. **Specific Flags**: List any specific questions (by Q number) that need attention, with a brief reason.
+6. **Verdict**: PASS, NEEDS MINOR EDITS, or NEEDS REWORK
+
+Be concise but thorough. Focus on actionable feedback.
+
+CONTENT TO REVIEW:
+${content}`;
+  } else {
+    qcPrompt = `You are the QC Manager / Coach Agent at Career Launcher. Your job is to review AI-generated presentation content for quality and complexity compliance.
+
+CONTENT TYPE: PowerPoint Slides
+EXAM: ${meta.exam || 'Unknown'}
+TOPIC: ${meta.topic || 'Unknown'}
+REQUESTED COMPLEXITY: ${diffInfo.label.toUpperCase()}
+NUMBER OF SLIDES EXPECTED: ${meta.numSlides || '?'}
+
+COMPLEXITY CRITERIA FOR ${diffInfo.label.toUpperCase()}:
+${diffInfo.qcCriteria}
+
+Review the following slide content and provide:
+1. **Overall Score**: Rate 1-10 (1=poor, 10=excellent)
+2. **Slide Count Check**: Are the expected number of content slides present?
+3. **Complexity Compliance**: Does content match the "${diffInfo.label}" level? Flag slides that are too basic or advanced for the level.
+4. **Quality Issues**: Check for - accuracy, completeness, logical flow, educational value, exam-relevance.
+5. **Specific Flags**: List any slides that need attention, with reasons.
+6. **Verdict**: PASS, NEEDS MINOR EDITS, or NEEDS REWORK
+
+Be concise but thorough. Focus on actionable feedback.
+
+CONTENT TO REVIEW:
+${content}`;
+  }
+
+  try {
+    const qcTokens = 1500;
+    const result = await callLLM(
+      [{ role: 'user', content: qcPrompt }],
+      'You are a strict but fair QC Manager and Coach Agent. You review educational content for quality, accuracy, and difficulty compliance. Always give a score out of 10 and a clear verdict.',
+      qcTokens
+    );
+    return result;
+  } catch (e) {
+    return null;
+  }
+}
+
+// QC for Agent tab chat responses — runs in background after assistant replies
+async function runChatQC(assistantReply) {
+  // Only run QC on substantial responses (likely content generation)
+  if (!assistantReply || assistantReply.length < 500) return;
+
+  const qcPrompt = `You are the QC Coach Agent at Career Launcher. Briefly review this AI assistant response for:
+1. Factual accuracy for Indian competitive exams (CAT, CLAT, etc.)
+2. Completeness — does it fully address the request?
+3. Any errors or misleading information?
+
+If everything looks good, say "QC: All good" in one line.
+If there are issues, list them briefly (max 3 bullet points).
+
+RESPONSE TO REVIEW:
+${assistantReply.substring(0, 3000)}`;
+
+  try {
+    const result = await callLLM(
+      [{ role: 'user', content: qcPrompt }],
+      'You are a concise QC reviewer. Only flag real issues. Keep feedback under 100 words.',
+      500
+    );
+    if (result && !result.startsWith('**Error') && !result.toLowerCase().includes('all good')) {
+      // Add QC feedback as a subtle message in chat
+      addChatMessage('assistant', '**QC Coach** &#128269;\n' + result);
+      conversationHistory.push({ role: 'assistant', content: '[QC Review] ' + result });
+    }
+  } catch (e) {
+    // Silent fail — QC is non-blocking
   }
 }
 
