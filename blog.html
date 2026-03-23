@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Features - TestMagicks Test Prep</title>
-    <meta name="description" content="Explore TestMagicks features: AI mock test generation, branded presentations, QC Coach agent, 4 difficulty levels, and multi-LLM support.">
-    <meta name="keywords" content="test prep features, AI mock generation, QC agent, branded presentations">
-    <meta name="author" content="TestMagicks">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://abhishekswarup-bd.github.io/CL-Agent/features.html">
-    <meta property="og:title" content="Features - TestMagicks Test Prep">
-    <meta property="og:description" content="AI mock test generation, branded presentations, QC Coach, and more.">
-    <meta property="og:url" content="https://abhishekswarup-bd.github.io/CL-Agent/features.html">
+    <title>Blog - TestMagicks Test Prep</title>
+    <meta name="description" content="TestMagicks blog - Expert insights on test prep, exam strategies, AI in education, and competitive exam preparation tips.">
+    <link rel="canonical" href="https://abhishekswarup-bd.github.io/CL-Agent/blog.html">
+    <meta property="og:title" content="Blog - TestMagicks">
+    <meta property="og:description" content="TestMagicks blog - Expert insights on test prep, exam strategies, AI in education, and competitive exam preparation tips.">
+    <meta property="og:url" content="https://abhishekswarup-bd.github.io/CL-Agent/blog.html">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://abhishekswarup-bd.github.io/CL-Agent/og-image.png">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -167,258 +163,199 @@
             font-size: 1.25rem;
             color: var(--text-muted);
             max-width: 800px;
-            margin: 0 auto 2rem;
+            margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            nav-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .nav-links {
-                flex-wrap: wrap;
-                gap: 1rem;
-                justify-content: center;
-            }
-        }
-
-        /* Features Grid */
-        .features-section {
+        /* Blog Container */
+        .blog-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 5rem 2rem;
-        }
-
-        .features-section h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 4rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        /* Articles Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
 
-        .feature-card {
+        .article-card {
             background: rgba(30, 27, 75, 0.4);
             border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 1.5rem;
-            padding: 2rem;
+            overflow: hidden;
             backdrop-filter: blur(10px);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateY(30px);
         }
 
-        html[data-theme="light"] .feature-card {
+        html[data-theme="light"] .article-card {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(139, 92, 246, 0.3);
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(59, 130, 246, 0.6);
+        .article-card:hover {
             transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.6);
             box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
         }
 
-        .feature-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .feature-card.fade-in {
+        .article-card.fade-in {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .feature-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1.5rem;
+        .article-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(236, 72, 153, 0.3));
-            border-radius: 1rem;
-            font-size: 2rem;
+            font-size: 3rem;
         }
 
-        .feature-card h3 {
-            font-size: 1.5rem;
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--color-blue);
+            font-weight: 600;
             margin-bottom: 1rem;
+        }
+
+        .article-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
             color: var(--text-light);
         }
 
-        .feature-card p {
+        .article-excerpt {
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
             font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
-        .feature-list {
-            list-style: none;
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .article-meta span {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2));
+            color: var(--color-blue);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: var(--gradient);
+            color: white;
+        }
+
+        /* Sidebar */
+        .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .feature-list li {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .feature-list li::before {
-            content: '✓';
-            color: var(--gold);
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(236, 72, 153, 0.05));
-            border-top: 1px solid rgba(59, 130, 246, 0.2);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .how-it-works h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 4rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
         }
 
-        .step-card {
+        .sidebar-section {
             background: rgba(30, 27, 75, 0.4);
             border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 1.5rem;
             padding: 2rem;
             backdrop-filter: blur(10px);
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
         }
 
-        html[data-theme="light"] .step-card {
+        html[data-theme="light"] .sidebar-section {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(139, 92, 246, 0.3);
         }
 
-        .step-card.fade-in {
-            opacity: 1;
-            transform: translateY(0);
+        .sidebar-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
         }
 
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 50%;
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .category-list a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin: 0 auto 1rem;
-            color: white;
+            gap: 0.5rem;
         }
 
-        .step-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
+        .category-list a:hover {
+            color: var(--color-blue);
+            transform: translateX(5px);
         }
 
-        .step-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 5rem 2rem;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(236, 72, 153, 0.1));
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cta-section p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: var(--gradient);
-            color: white;
-            text-decoration: none;
+        .newsletter-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 0.75rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1.05rem;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .cta-button:hover {
+        .newsletter-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .newsletter-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
         }
 
         /* Footer */
@@ -486,30 +423,28 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
             }
 
-            .features-section h2,
-            .how-it-works h2,
-            .cta-section h2 {
-                font-size: 1.75rem;
-            }
-
-            .features-grid,
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-
             .nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
+                flex-wrap: wrap;
+                gap: 1rem;
             }
 
-            .cta-button {
-                padding: 0.875rem 2rem;
-                font-size: 1rem;
+            .articles-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -537,10 +472,12 @@
             </div>
             <div class="nav-links">
                 <a href="testmagicks-website.html">Home</a>
-                <a href="features.html" class="active">Features</a>
+                <a href="features.html">Features</a>
                 <a href="pricing.html">Pricing</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="case-studies.html">Case Studies</a>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
             </div>
         </nav-content>
@@ -548,144 +485,125 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Powerful Features for Test Prep Excellence</h1>
-        <p>Generate, customize, and deliver high-quality mock exams and learning materials with AI-powered quality control</p>
+        <h1>TestMagicks Blog</h1>
+        <p>Insights, strategies, and best practices for test prep content creation</p>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <h2>Our Core Features</h2>
-        <div class="features-grid">
-            <!-- Feature 1: AI Mock Generation -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI Mock Generation</h3>
-                    <p>Generate complete mock exams in DOCX format with multiple choice questions, detailed answers, and explanations</p>
-                    <ul class="feature-list">
-                        <li>CAT, CLAT, AILET exam support</li>
-                        <li>SNAP, NMAT, IPMAT exams</li>
-                        <li>CUET exam generation</li>
-                        <li>Customizable question count</li>
-                        <li>Auto-formatted answers & explanations</li>
-                    </ul>
+    <!-- Blog Section -->
+    <section class="blog-container">
+        <div class="articles-grid">
+            <!-- Article 1 -->
+            <div class="article-card">
+                <div class="article-thumbnail">📱</div>
+                <div class="article-content">
+                    <span class="article-category">AI & Technology</span>
+                    <h3>How AI is Transforming Test Prep</h3>
+                    <p class="article-excerpt">Discover how artificial intelligence is revolutionizing the way educational institutions create, deliver, and evaluate test prep content at scale.</p>
+                    <div class="article-meta">
+                        <span>Mar 15, 2026</span>
+                        <span>8 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
 
-            <!-- Feature 2: Branded Slide Decks -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">📊</div>
-                    <h3>Branded Slide Decks</h3>
-                    <p>Create professional PowerPoint presentations for YouTube sessions and classroom teaching</p>
-                    <ul class="feature-list">
-                        <li>Clean White style template</li>
-                        <li>Dark Professional design</li>
-                        <li>Colourful Education layout</li>
-                        <li>CL branding auto-applied</li>
-                        <li>Ready for video creation</li>
-                    </ul>
+            <!-- Article 2 -->
+            <div class="article-card">
+                <div class="article-thumbnail">📚</div>
+                <div class="article-content">
+                    <span class="article-category">Exam Strategy</span>
+                    <h3>CAT 2026 Preparation Strategy</h3>
+                    <p class="article-excerpt">A comprehensive guide to preparing for CAT 2026, including timeline planning, resource allocation, and effective mock test utilization strategies.</p>
+                    <div class="article-meta">
+                        <span>Mar 10, 2026</span>
+                        <span>10 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
 
-            <!-- Feature 3: QC Coach Agent -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">✅</div>
-                    <h3>QC Coach Agent</h3>
-                    <p>Automatic quality control review ensuring every generated output meets your standards</p>
-                    <ul class="feature-list">
-                        <li>Scores content on 1-10 scale</li>
-                        <li>Checks difficulty compliance</li>
-                        <li>Flags problematic content</li>
-                        <li>PASS/NEEDS WORK/REWORK verdict</li>
-                        <li>Detailed feedback report</li>
-                    </ul>
+            <!-- Article 3 -->
+            <div class="article-card">
+                <div class="article-thumbnail">✍️</div>
+                <div class="article-content">
+                    <span class="article-category">Best Practices</span>
+                    <h3>Mock Tests: Quality vs Quantity</h3>
+                    <p class="article-excerpt">Learn why quality mock tests matter more than quantity and how to create mock exams that truly prepare students for success.</p>
+                    <div class="article-meta">
+                        <span>Mar 5, 2026</span>
+                        <span>6 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
 
-            <!-- Feature 4: 4 Difficulty Levels -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">📈</div>
-                    <h3>4 Difficulty Levels</h3>
-                    <p>Tailor content difficulty from foundational to extremely challenging questions</p>
-                    <ul class="feature-list">
-                        <li>Simple: Foundational concepts</li>
-                        <li>Medium: Standard exam level</li>
-                        <li>High: Advanced multi-step</li>
-                        <li>Extremely Complex: Trap options</li>
-                        <li>Tailored AI prompts per level</li>
-                    </ul>
+            <!-- Article 4 -->
+            <div class="article-card">
+                <div class="article-thumbnail">📋</div>
+                <div class="article-content">
+                    <span class="article-category">Product Updates</span>
+                    <h3>CLAT Exam Pattern Changes</h3>
+                    <p class="article-excerpt">Stay updated with the latest changes to the CLAT exam pattern for 2026 and how to adapt your preparation strategy accordingly.</p>
+                    <div class="article-meta">
+                        <span>Feb 28, 2026</span>
+                        <span>7 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
 
-            <!-- Feature 5: Multi-LLM Support -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Multi-LLM Support</h3>
-                    <p>Work with multiple AI providers for flexibility and cost optimization</p>
-                    <ul class="feature-list">
-                        <li>Anthropic Claude integration</li>
-                        <li>Google Gemini (free tier)</li>
-                        <li>Groq (free tier access)</li>
-                        <li>OpenRouter support</li>
-                        <li>Switch providers anytime</li>
-                    </ul>
+            <!-- Article 5 -->
+            <div class="article-card">
+                <div class="article-thumbnail">📊</div>
+                <div class="article-content">
+                    <span class="article-category">Best Practices</span>
+                    <h3>Using Difficulty Levels Effectively</h3>
+                    <p class="article-excerpt">Master the art of scaffolding difficulty levels in your test content to maximize student learning outcomes and confidence building.</p>
+                    <div class="article-meta">
+                        <span>Feb 20, 2026</span>
+                        <span>9 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
 
-            <!-- Feature 6: Smart Scheduling -->
-            <div class="feature-card">
-                <div class="feature-content">
-                    <div class="feature-icon">📅</div>
-                    <h3>Smart Scheduling</h3>
-                    <p>Manage your team's mock production pipeline with intelligent task tracking</p>
-                    <ul class="feature-list">
-                        <li>Track overdue & due-soon mocks</li>
-                        <li>Upcoming mock pipeline view</li>
-                        <li>Team member assignment</li>
-                        <li>Monthly summary reports</li>
-                        <li>Production timeline visibility</li>
-                    </ul>
+            <!-- Article 6 -->
+            <div class="article-card">
+                <div class="article-thumbnail">🏫</div>
+                <div class="article-content">
+                    <span class="article-category">Exam Strategy</span>
+                    <h3>Institute Guide to Scaling Test Content</h3>
+                    <p class="article-excerpt">How coaching institutes and academies can scale their test content creation without sacrificing quality or exceeding budgets.</p>
+                    <div class="article-meta">
+                        <span>Feb 15, 2026</span>
+                        <span>11 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <h2>How It Works</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Configure Your Exam</h3>
-                <p>Choose exam type, difficulty level, question count, and customization options</p>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Categories -->
+            <div class="sidebar-section">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li><a href="#">📱 AI & Technology</a></li>
+                    <li><a href="#">📚 Exam Strategy</a></li>
+                    <li><a href="#">✅ Best Practices</a></li>
+                    <li><a href="#">🎯 Product Updates</a></li>
+                </ul>
             </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>AI Generates Content</h3>
-                <p>Our AI creates comprehensive mock exams with questions, answers, and detailed explanations</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>QC Coach Reviews</h3>
-                <p>Automatic quality control ensures content quality and compliance with your standards</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3>Export & Deliver</h3>
-                <p>Download formatted DOCX or PowerPoint files ready for students immediately</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2>Ready to Transform Your Test Prep?</h2>
-        <p>Join thousands of educators using TestMagicks to create better learning experiences. Start generating professional-grade content today.</p>
-        <button class="cta-button">Get Started Now</button>
+            <!-- Newsletter -->
+            <div class="sidebar-section">
+                <h3>Subscribe</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Get the latest insights delivered to your inbox.</p>
+                <input type="email" class="newsletter-input" placeholder="Your email">
+                <button class="newsletter-button">Subscribe</button>
+            </div>
+        </aside>
     </section>
 
     <!-- Footer -->
@@ -720,8 +638,8 @@
             </div>
             <div class="footer-section">
                 <h4>Company</h4>
-                <a href="testmagicks-website.html">Home</a>
                 <a href="blog.html">Blog</a>
+                <a href="case-studies.html">Case Studies</a>
                 <a href="#">Careers</a>
                 <a href="#">Press</a>
             </div>
@@ -729,8 +647,8 @@
                 <h4>Legal</h4>
                 <a href="privacy.html">Privacy Policy</a>
                 <a href="terms.html">Terms of Service</a>
-                <a href="privacy.html">Security</a>
-                <a href="privacy.html">Cookie Settings</a>
+                <a href="#">Security</a>
+                <a href="#">Cookie Settings</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -743,7 +661,6 @@
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
-        // Load saved theme preference
         const savedTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', savedTheme);
         updateThemeIcon(savedTheme);
@@ -776,22 +693,24 @@
             });
         }, observerOptions);
 
-        // Observe all feature cards and step cards
-        document.querySelectorAll('.feature-card, .step-card').forEach(el => {
+        document.querySelectorAll('.article-card').forEach(el => {
             observer.observe(el);
         });
 
-        // Smooth scroll for CTA button
-        document.querySelector('.cta-button').addEventListener('click', () => {
-            alert('Welcome to TestMagicks! Redirecting to sign up...');
-            // In a real site, this would redirect to signup page
-        });
-
-        // Active link highlighting based on current page
+        // Active link highlighting
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         document.querySelectorAll('.nav-links a').forEach(link => {
             if (link.getAttribute('href') === currentPage) {
                 link.classList.add('active');
+            }
+        });
+
+        // Newsletter subscription
+        document.querySelector('.newsletter-button').addEventListener('click', () => {
+            const email = document.querySelector('.newsletter-input').value;
+            if (email) {
+                alert('Thank you for subscribing! Check your email for confirmation.');
+                document.querySelector('.newsletter-input').value = '';
             }
         });
     </script>

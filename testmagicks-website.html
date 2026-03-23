@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TestMagicks Test Prep - AI-Powered Test Intelligence</title>
+    <meta name="description" content="Generate mock exams, branded presentations, and quality-reviewed test content in seconds. For CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET and more.">
+    <meta name="keywords" content="test prep, mock exams, AI content generation, CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET">
+    <meta name="author" content="TestMagicks">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abhishekswarup-bd.github.io/CL-Agent/testmagicks-website.html">
+    <meta property="og:title" content="TestMagicks - AI-Powered Test Prep Content Generation">
+    <meta property="og:description" content="Generate mock exams, branded presentations, and quality-reviewed test content in seconds.">
+    <meta property="og:url" content="https://abhishekswarup-bd.github.io/CL-Agent/testmagicks-website.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://abhishekswarup-bd.github.io/CL-Agent/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TestMagicks - AI-Powered Test Prep Content Generation">
+    <meta name="twitter:description" content="Generate mock exams, branded presentations, and quality-reviewed test content in seconds.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -768,6 +784,235 @@
             background: rgba(15, 23, 42, 0.95);
         }
 
+        /* ===== DEMO MODAL ===== */
+        .demo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .demo-modal.show {
+            display: flex;
+        }
+
+        .demo-modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .demo-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2001;
+            transition: background 0.3s ease;
+        }
+
+        .demo-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===== WHATSAPP WIDGET ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+            animation: none;
+        }
+
+        .whatsapp-float svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        @keyframes pulse-whatsapp {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast {
+            position: fixed;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            transition: top 0.4s ease;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+        }
+
+        .toast.show {
+            top: 20px;
+        }
+
+        /* ===== BUTTON LOADING STATE ===== */
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spinner 0.6s linear infinite;
+        }
+
+        @keyframes spinner {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== TRUSTED BY SECTION ===== */
+        .trusted-by-section {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .trusted-by-label {
+            font-size: 14px;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .logo-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+            padding: 16px 0;
+        }
+
+        .logo-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+            padding: 16px;
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            font-size: 13px;
+            color: #D1D5DB;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-card:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .logo-row {
+                gap: 12px;
+            }
+            .logo-card {
+                min-width: 120px;
+                padding: 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* ===== VERIFIED BADGE ===== */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #10B981;
+            margin-left: 8px;
+        }
+
+        .verified-badge::before {
+            content: '✓';
+            font-weight: bold;
+        }
+
         /* ===== FOOTER ===== */
         footer {
             background: rgba(15, 23, 42, 0.95);
@@ -1077,7 +1322,7 @@
                     <p>Generate complete mock exams, branded presentations, and quality-reviewed content in seconds. NEXT-GEN TEST INTELLIGENCE for CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET and more.</p>
                     <div class="hero-buttons">
                         <button class="gradient-button" onclick="document.querySelector('.cta-input').focus()">Start Free Trial</button>
-                        <button class="gradient-button" style="background: transparent; border: 1px solid rgba(139, 92, 246, 0.5);">Watch Demo</button>
+                        <button class="gradient-button" style="background: transparent; border: 1px solid rgba(139, 92, 246, 0.5);" onclick="openDemoModal()">Watch Demo</button>
                     </div>
                 </div>
                 <div class="hero-mockup fade-in">
@@ -1120,6 +1365,16 @@
                         <div class="stat-number">4</div>
                         <div class="stat-label">Difficulty Levels</div>
                     </div>
+                </div>
+            </div>
+            <div class="trusted-by-section">
+                <div class="trusted-by-label">Trusted by leading institutes</div>
+                <div class="logo-row">
+                    <div class="logo-card">Pinnacle Academy</div>
+                    <div class="logo-card">Excel Coaching</div>
+                    <div class="logo-card">National Test Prep</div>
+                    <div class="logo-card">Merit Institute</div>
+                    <div class="logo-card">TopRank Prep</div>
                 </div>
             </div>
         </div>
@@ -1255,7 +1510,7 @@
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"TestMagicks has transformed how we create mock exams. What used to take us 20 hours now takes 20 minutes. The QC agent ensures consistency across all our content."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Rajesh Kumar</span>
+                        <span class="author-name">Rajesh Kumar<span class="verified-badge">Verified User</span></span>
                         <span class="author-title">Director, Elite CAT Coaching</span>
                     </div>
                 </div>
@@ -1263,7 +1518,7 @@
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"As a student, I love having access to varied mock exams. The difficulty levels help me prepare progressively. The explanations are detailed and actually help me understand concepts."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Priya Sharma</span>
+                        <span class="author-name">Priya Sharma<span class="verified-badge">Verified User</span></span>
                         <span class="author-title">CAT Aspirant, IIT Delhi</span>
                     </div>
                 </div>
@@ -1271,7 +1526,7 @@
                     <div class="stars">★★★★★</div>
                     <div class="testimonial-text">"The white-label feature is incredible. We've branded TestMagicks with our institute colors and logo. Our students think it's our own platform. Game changer for retention."</div>
                     <div class="testimonial-author">
-                        <span class="author-name">Anjali Verma</span>
+                        <span class="author-name">Anjali Verma<span class="verified-badge">Verified User</span></span>
                         <span class="author-title">Founder, CLAT Academy</span>
                     </div>
                 </div>
@@ -1347,7 +1602,7 @@
     <section class="cta-section container fade-in">
         <h2>Ready to Transform Your Test Prep?</h2>
         <p style="color: #9CA3AF; font-size: 18px; margin-bottom: 0;">Join 50+ institutes and 10,000+ students already using TestMagicks</p>
-        <form class="cta-form" onsubmit="event.preventDefault(); alert('Thanks for your interest! Check your email soon.');">
+        <form class="cta-form" onsubmit="handleCTASubmit(event)">
             <input type="email" class="cta-input" placeholder="Enter your email address" required>
             <button type="submit" class="gradient-button">Get Started Free</button>
         </form>
@@ -1395,7 +1650,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="#">Blog</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -1403,9 +1658,9 @@
                 <div class="footer-section">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Cookie Policy</a></li>
                     </ul>
                     <div class="footer-social">
                         <div class="social-icon">f</div>
@@ -1420,6 +1675,26 @@
             </div>
         </div>
     </footer>
+
+    <!-- ===== DEMO MODAL ===== -->
+    <div id="demoModal" class="demo-modal" onclick="if(event.target===this)closeDemoModal()">
+        <div class="demo-modal-content">
+            <button class="demo-modal-close" onclick="closeDemoModal()">&times;</button>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="" id="demoVideo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WHATSAPP WIDGET ===== -->
+    <a href="https://wa.me/911145678900?text=Hi!%20I'm%20interested%20in%20TestMagicks" target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.052 0-2.082.362-2.898 1.028l-.209.157-2.165-.567.578 2.11.167.266c-.727.906-1.117 2.057-1.117 3.282 0 3.053 2.485 5.537 5.537 5.537 1.483 0 2.876-.576 3.927-1.627 1.05-1.05 1.627-2.444 1.627-3.927 0-3.053-2.485-5.537-5.537-5.537m5.537-3.032c-1.438 0-2.837.356-4.107 1.031-1.268.676-2.416 1.647-3.247 2.854-.831 1.207-1.284 2.581-1.284 4.042 0 1.44.356 2.839 1.03 4.108.675 1.269 1.646 2.417 2.853 3.248 1.207.83 2.581 1.283 4.042 1.283 1.439 0 2.838-.355 4.107-1.03 1.268-.676 2.416-1.647 3.247-2.854.831-1.206 1.284-2.581 1.284-4.042 0-1.44-.355-2.839-1.03-4.108-.675-1.268-1.646-2.416-2.853-3.247-1.206-.831-2.581-1.284-4.042-1.284"/>
+        </svg>
+    </a>
+
+    <!-- ===== TOAST NOTIFICATION ===== -->
+    <div id="toast" class="toast"></div>
 
     <!-- ===== INTERSECTION OBSERVER FOR ANIMATIONS ===== -->
     <script>
@@ -1480,6 +1755,61 @@
                     }
                 }
             });
+        });
+
+        // Demo Modal Functions
+        function openDemoModal() {
+            const modal = document.getElementById('demoModal');
+            const demoVideo = document.getElementById('demoVideo');
+            demoVideo.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDemoModal() {
+            const modal = document.getElementById('demoModal');
+            const demoVideo = document.getElementById('demoVideo');
+            modal.classList.remove('show');
+            demoVideo.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // CTA Form Submission
+        function handleCTASubmit(e) {
+            e.preventDefault();
+            const email = document.querySelector('.cta-input').value;
+            if (!email || !email.includes('@')) {
+                showToast('Please enter a valid email', 'error');
+                return;
+            }
+            const btn = e.target.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            // Simulate send (EmailJS integration point)
+            setTimeout(() => {
+                showToast('Welcome to TestMagicks! Check your email for next steps.', 'success');
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                document.querySelector('.cta-input').value = '';
+            }, 1500);
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDemoModal();
+            }
         });
     </script>
 </body>

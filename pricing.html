@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TestMagicks pricing plans - Free Starter, Pro at ₹2,499/mo, and Institute at ₹7,999/mo. AI-powered test prep content generation.">
+    <meta name="keywords" content="TestMagicks pricing, test prep plans, mock exam pricing, institute pricing">
+    <meta name="author" content="TestMagicks">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abhishekswarup-bd.github.io/CL-Agent/pricing.html">
+    <meta property="og:title" content="Pricing - TestMagicks Test Prep">
+    <meta property="og:description" content="Choose your plan. Free Starter, Pro at ₹2,499/mo, Institute at ₹7,999/mo.">
+    <meta property="og:url" content="https://abhishekswarup-bd.github.io/CL-Agent/pricing.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://abhishekswarup-bd.github.io/CL-Agent/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pricing - TestMagicks Test Prep">
+    <meta name="twitter:description" content="Choose your plan. Free Starter, Pro at ₹2,499/mo, Institute at ₹7,999/mo.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
     <title>Pricing - TestMagicks Test Prep</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -785,6 +801,121 @@
             }
         }
 
+        /* Loading State */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+            border: 2px solid transparent;
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Trust Badges Section */
+        .trust-badges {
+            background: rgba(30, 27, 75, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 4rem 0;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .trust-badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(30, 27, 75, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .trust-badge:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .trust-badge-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .trust-badge-title {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .trust-badge-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Money-Back Guarantee Banner */
+        .guarantee-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin: 3rem 0 4rem 0;
+            text-align: center;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .guarantee-banner h3 {
+            color: var(--gold);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .guarantee-banner p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Annual Savings Calculator */
+        .annual-savings {
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .annual-savings.active {
+            opacity: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .pricing-header h1 {
@@ -869,6 +1000,7 @@
             <div class="toggle-switch" id="pricingToggle"></div>
             <span class="toggle-label" id="toggleLabel">Annual</span>
         </div>
+        <p id="savingsText" class="annual-savings"></p>
     </div>
 
     <!-- Pricing Cards -->
@@ -880,7 +1012,7 @@
                 <p class="subtitle">Perfect for individuals</p>
                 <div class="price" id="starterPrice">Free</div>
                 <p class="billing-period" id="starterBilling">Forever free</p>
-                <button class="btn btn-secondary">Get Started</button>
+                <button class="btn btn-secondary" onclick="alert('Redirecting to signup...'); window.location.href='#signup';">Get Started Free</button>
                 <ul>
                     <li>1 user account</li>
                     <li>10 mocks per month</li>
@@ -898,7 +1030,7 @@
                 <div class="price" id="proPrice">₹2,499</div>
                 <p class="billing-period" id="proBilling">/month</p>
                 <div class="savings" id="proSavings" style="display: none;">Save ₹4,989/year</div>
-                <button class="btn btn-primary">Start Free Trial</button>
+                <button class="btn btn-primary" id="proButton" onclick="handleProPayment()">Start Free Trial</button>
                 <ul>
                     <li>5 user accounts</li>
                     <li>Unlimited mocks</li>
@@ -917,7 +1049,7 @@
                 <div class="price" id="institutePrice">₹7,999</div>
                 <p class="billing-period" id="instituteBilling">/month</p>
                 <div class="savings" id="instituteSavings" style="display: none;">Save ₹15,989/year</div>
-                <button class="btn btn-secondary">Contact Sales</button>
+                <button class="btn btn-secondary" id="instituteButton" onclick="handleInstitutePayment()">Contact Sales</button>
                 <ul>
                     <li>Unlimited users</li>
                     <li>Everything in Pro</li>
@@ -955,6 +1087,42 @@
                     <p><strong>Community Forum</strong> - Connect with fellow test takers</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="container">
+        <div class="trust-badges">
+            <div class="trust-badges-grid">
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">🔒</div>
+                    <div class="trust-badge-title">Secured by Razorpay</div>
+                    <div class="trust-badge-desc">Industry-leading payment processor</div>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">🔐</div>
+                    <div class="trust-badge-title">256-bit SSL Encryption</div>
+                    <div class="trust-badge-desc">Bank-level security for your data</div>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">✓</div>
+                    <div class="trust-badge-title">Cancel Anytime</div>
+                    <div class="trust-badge-desc">No hidden fees or penalties</div>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">⭐</div>
+                    <div class="trust-badge-title">7-Day Free Trial</div>
+                    <div class="trust-badge-desc">Full access, no credit card needed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Money-Back Guarantee Banner -->
+    <div class="container">
+        <div class="guarantee-banner">
+            <h3>🎯 30-Day Money-Back Guarantee</h3>
+            <p>No questions asked — if you're not satisfied, get a full refund within 30 days of purchase.</p>
         </div>
     </div>
 
@@ -1133,19 +1301,19 @@
             <div>
                 <h3>Company</h3>
                 <ul>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Press</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div>
                 <h3>Legal</h3>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Security</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Cookie Policy</a></li>
+                    <li><a href="privacy.html">Security</a></li>
                 </ul>
             </div>
             <div>
@@ -1163,7 +1331,70 @@
         </div>
     </footer>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
+        // Razorpay Payment Integration
+        function initiatePayment(planName, amount, period) {
+            // amount in paise (INR smallest unit)
+            const options = {
+                key: 'rzp_test_placeholder', // Test key placeholder
+                amount: amount,
+                currency: 'INR',
+                name: 'TestMagicks',
+                description: planName + ' Plan - ' + period,
+                image: '', // logo URL
+                handler: function(response) {
+                    alert('Payment successful! ID: ' + response.razorpay_payment_id);
+                    // In production: send to server for verification
+                },
+                prefill: {
+                    name: '',
+                    email: '',
+                    contact: ''
+                },
+                theme: {
+                    color: '#7C3AED'
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment cancelled');
+                    }
+                }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function handleProPayment() {
+            const button = document.getElementById('proButton');
+            const isAnnual = document.getElementById('pricingToggle').classList.contains('active');
+            const amount = isAnnual ? 2499900 : 249900; // amount in paise
+            const period = isAnnual ? 'Annual' : 'Monthly';
+
+            button.classList.add('btn-loading');
+
+            // Simulate payment processing delay
+            setTimeout(() => {
+                button.classList.remove('btn-loading');
+                initiatePayment('Pro', amount, period);
+            }, 500);
+        }
+
+        function handleInstitutePayment() {
+            const button = document.getElementById('instituteButton');
+            const isAnnual = document.getElementById('pricingToggle').classList.contains('active');
+            const amount = isAnnual ? 7999900 : 799900; // amount in paise
+            const period = isAnnual ? 'Annual' : 'Monthly';
+
+            button.classList.add('btn-loading');
+
+            // Simulate payment processing delay
+            setTimeout(() => {
+                button.classList.remove('btn-loading');
+                initiatePayment('Institute', amount, period);
+            }, 500);
+        }
+
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
@@ -1218,6 +1449,15 @@
             // Show/hide savings badges
             document.getElementById('proSavings').style.display = isAnnual ? 'inline-block' : 'none';
             document.getElementById('instituteSavings').style.display = isAnnual ? 'inline-block' : 'none';
+
+            // Show/hide annual savings calculator
+            const savingsText = document.getElementById('savingsText');
+            if (isAnnual) {
+                savingsText.textContent = 'Save up to 17% with annual billing';
+                savingsText.classList.add('active');
+            } else {
+                savingsText.classList.remove('active');
+            }
         });
 
         // FAQ Accordion
