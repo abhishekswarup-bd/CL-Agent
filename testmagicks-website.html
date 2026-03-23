@@ -189,13 +189,14 @@
                 top: 70px;
                 left: 0;
                 right: 0;
-                background: inherit;
+                background: #0F172A;
                 flex-direction: column;
                 padding: 20px;
                 gap: 15px;
                 border-bottom: 1px solid rgba(139, 92, 246, 0.3);
                 z-index: 1000;
                 list-style: none;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             }
 
             .nav-links.active {
@@ -1201,11 +1202,23 @@
             box-shadow: 0 4px 24px rgba(0,0,0,0.06);
         }
 
-        html[data-theme="light"] .hero-buttons .gradient-button[style*="transparent"] {
+        .demo-btn {
+            background: transparent !important;
+            border: 1px solid rgba(139, 92, 246, 0.5) !important;
+        }
+
+        html[data-theme="light"] .demo-btn {
             background: transparent !important;
             border: 2px solid #7C3AED !important;
             color: #7C3AED !important;
             -webkit-text-fill-color: #7C3AED !important;
+        }
+
+        @media (max-width: 768px) {
+            html[data-theme="light"] .nav-links {
+                background: #FFFFFF;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            }
         }
 
         html[data-theme="light"] .stat-number,
@@ -1534,7 +1547,7 @@
                     <p>Generate complete mock exams, branded presentations, and quality-reviewed content in seconds. NEXT-GEN TEST INTELLIGENCE for CAT, CLAT, AILET, SNAP, NMAT, IPMAT, CUET and more.</p>
                     <div class="hero-buttons">
                         <button class="gradient-button" onclick="window.location.href='index.html'">Start Free Trial</button>
-                        <button class="gradient-button" style="background: transparent; border: 1px solid rgba(139, 92, 246, 0.5);" onclick="openDemoModal()">Watch Demo</button>
+                        <button class="gradient-button demo-btn" onclick="openDemoModal()">Watch Demo</button>
                     </div>
                 </div>
                 <div class="hero-mockup fade-in">
