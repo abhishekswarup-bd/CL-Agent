@@ -14,5 +14,5 @@
   <circle cx="16" cy="16" r="14" fill="none" stroke="url(#gradientRing)" stroke-width="2"/>
 
   <!-- TM text -->
-  <text x="16" y="18" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">TM</text>
+  <text x="16" y="18" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">CL</text>
 </svg>
